@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  einstallment.api:
+    image: ${DOCKER_REGISTRY-}einstallmentapi
+    build:
+      context: .
+      dockerfile: EInstallment.Api/Dockerfile
