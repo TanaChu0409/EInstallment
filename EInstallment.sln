@@ -3,22 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EInstallment.Api", "EInstallment.Api\EInstallment.Api.csproj", "{7721FEE6-70C6-411F-A9B3-514EC937B925}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EInstallment.Api", "EInstallment.Api\EInstallment.Api.csproj", "{7721FEE6-70C6-411F-A9B3-514EC937B925}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{8D3D8597-C083-4AF8-8258-EE5A5066C3B2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{007208D3-CCA5-405C-BB25-E75E90072D43}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		Directory.Build.props = Directory.Build.props
-	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EInstallment.Domain", "EInstallment.Domain\EInstallment.Domain.csproj", "{3E7FC495-34D6-4B94-91FC-47DF5448EE06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EInstallment.Domain", "EInstallment.Domain\EInstallment.Domain.csproj", "{3E7FC495-34D6-4B94-91FC-47DF5448EE06}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "方案項目", "方案項目", "{8C2D624F-ECC4-4067-B967-D3183E923621}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A18D0320-FF0D-4A6A-A32F-471FBD7251D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EInstallment.ArchitectureTest", "EInstallment.ArchitectureTest\EInstallment.ArchitectureTest.csproj", "{9103FAB5-B7A2-44D7-B159-2D7567A98140}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EInstallment.Application", "EInstallment.Application\EInstallment.Application.csproj", "{67EC5292-E709-4059-93DB-AC1E1DE3C843}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +42,14 @@ Global
 		{3E7FC495-34D6-4B94-91FC-47DF5448EE06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E7FC495-34D6-4B94-91FC-47DF5448EE06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E7FC495-34D6-4B94-91FC-47DF5448EE06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9103FAB5-B7A2-44D7-B159-2D7567A98140}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9103FAB5-B7A2-44D7-B159-2D7567A98140}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9103FAB5-B7A2-44D7-B159-2D7567A98140}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9103FAB5-B7A2-44D7-B159-2D7567A98140}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67EC5292-E709-4059-93DB-AC1E1DE3C843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67EC5292-E709-4059-93DB-AC1E1DE3C843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67EC5292-E709-4059-93DB-AC1E1DE3C843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67EC5292-E709-4059-93DB-AC1E1DE3C843}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +58,8 @@ Global
 		{7721FEE6-70C6-411F-A9B3-514EC937B925} = {007208D3-CCA5-405C-BB25-E75E90072D43}
 		{8D3D8597-C083-4AF8-8258-EE5A5066C3B2} = {007208D3-CCA5-405C-BB25-E75E90072D43}
 		{3E7FC495-34D6-4B94-91FC-47DF5448EE06} = {007208D3-CCA5-405C-BB25-E75E90072D43}
+		{9103FAB5-B7A2-44D7-B159-2D7567A98140} = {A18D0320-FF0D-4A6A-A32F-471FBD7251D3}
+		{67EC5292-E709-4059-93DB-AC1E1DE3C843} = {007208D3-CCA5-405C-BB25-E75E90072D43}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FF5964B8-BBEC-4E66-B706-43C84C49C1BD}

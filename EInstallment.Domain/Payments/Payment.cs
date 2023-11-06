@@ -2,6 +2,7 @@
 using EInstallment.Domain.Installments;
 using EInstallment.Domain.Members;
 using EInstallment.Domain.SeedWork;
+using EInstallment.Domain.Shared;
 
 namespace EInstallment.Domain.Payments;
 
@@ -32,7 +33,7 @@ public sealed class Payment : Entity
 
     public Installment Installment { get; private set; }
 
-    public static Payment Create(
+    public static Result<Payment> Create(
         decimal amount,
         Member creator,
         CreditCard creditCard,
