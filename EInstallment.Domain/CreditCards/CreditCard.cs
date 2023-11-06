@@ -1,6 +1,8 @@
 ﻿using EInstallment.Domain.Installments;
 using EInstallment.Domain.Payments;
 using EInstallment.Domain.SeedWork;
+using EInstallment.Domain.Shared;
+using EInstallment.Domain.ValueObjects;
 
 namespace EInstallment.Domain.CreditCards;
 
@@ -11,7 +13,7 @@ public sealed class CreditCard : Entity
 
     private CreditCard(
         Guid id,
-        string bankName,
+        BankName bankName,
         DateTime paymentDateOnUtc)
         : base(id)
     {
@@ -19,7 +21,7 @@ public sealed class CreditCard : Entity
         PaymentDateOnUtc = paymentDateOnUtc;
     }
 
-    public string BankName { get; set; }
+    public BankName BankName { get; set; }
 
     public DateTime PaymentDateOnUtc { get; set; }
 
@@ -27,8 +29,8 @@ public sealed class CreditCard : Entity
 
     public IReadOnlyCollection<Payment> Payments => _payments;
 
-    public static CreditCard Create(
-        string bankName,
+    public static Result<CreditCard> Create(
+        BankName bankName,
         DateTime paymentDateOnUtc)
     {
         var creditCard = new CreditCard(

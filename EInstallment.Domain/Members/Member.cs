@@ -1,4 +1,6 @@
 ﻿using EInstallment.Domain.SeedWork;
+using EInstallment.Domain.Shared;
+using EInstallment.Domain.ValueObjects;
 
 namespace EInstallment.Domain.Members;
 
@@ -6,9 +8,9 @@ public sealed class Member : Entity
 {
     private Member(
         Guid id,
-        string firstName,
-        string lastName,
-        string email)
+        FirstName firstName,
+        LastName lastName,
+        Email email)
         : base(id)
     {
         FirstName = firstName;
@@ -17,18 +19,18 @@ public sealed class Member : Entity
         CreateOnUtc = DateTime.UtcNow;
     }
 
-    public string FirstName { get; private set; }
+    public FirstName FirstName { get; private set; }
 
-    public string LastName { get; private set; }
+    public LastName LastName { get; private set; }
 
-    public string Email { get; private set; }
+    public Email Email { get; private set; }
 
     public DateTime CreateOnUtc { get; private set; }
 
-    public static Member Create(
-        string firstName,
-        string lastName,
-        string email)
+    public static Result<Member> Create(
+        FirstName firstName,
+        LastName lastName,
+        Email email)
     {
         var member = new Member(
             Guid.NewGuid(),
@@ -40,9 +42,9 @@ public sealed class Member : Entity
     }
 
     public void Update(
-        string firstName,
-        string lastName,
-        string email)
+        FirstName firstName,
+        LastName lastName,
+        Email email)
     {
         FirstName = firstName;
         LastName = lastName;

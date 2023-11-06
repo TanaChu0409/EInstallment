@@ -2,6 +2,7 @@
 using EInstallment.Domain.Members;
 using EInstallment.Domain.Payments;
 using EInstallment.Domain.SeedWork;
+using EInstallment.Domain.Shared;
 
 namespace EInstallment.Domain.Installments;
 
@@ -55,7 +56,7 @@ public sealed class Installment : Entity
 
     public CreditCard CreditCard { get; private set; }
 
-    public static Installment Create(
+    public static Result<Installment> Create(
         string itemName,
         int totalNumberOfInstallment,
         int alreadyPayNumberOfInstallment,
