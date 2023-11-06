@@ -45,7 +45,7 @@ public sealed class Payment : Entity
             creditCard,
             installment);
 
-        // missing for change installment info
+        // rasie domain event for re-calculated installment
 
         return payment;
     }
