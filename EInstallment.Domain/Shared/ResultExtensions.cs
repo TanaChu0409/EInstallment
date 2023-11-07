@@ -23,4 +23,14 @@ public static class ResultExtensions
         result.IsSuccess
         ? Result.Success(mappingFunc(result.Value))
         : Result.Failure<TOut>(result.Error);
+
+    public static T Match<T>(
+        this Result result,
+        Func<T> onSuccess,
+        Func<Error, T> onFailure)
+    {
+        return result.IsSuccess ?
+                onSuccess() :
+                onFailure(result.Error);
+    }
 }

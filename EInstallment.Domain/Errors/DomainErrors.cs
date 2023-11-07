@@ -51,4 +51,11 @@ internal static class DomainErrors
             "EInstallment.BankNameCreate",
             $"The bank name can't over {ValueObjects.BankName.MaxLength}");
     }
+
+    public static class Member
+    {
+        public static readonly Error EmailIsNotUnique = new(
+                "Gathering.EmailIsNotUnique",
+                "Email was used, please use other email address");
+    }
 }

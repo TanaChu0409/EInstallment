@@ -1,14 +1,19 @@
-﻿namespace EInstallment.Domain.Members;
+﻿using EInstallment.Domain.SeedWork;
+using EInstallment.Domain.ValueObjects;
 
-public interface IMemberRepository
+namespace EInstallment.Domain.Members;
+
+public interface IMemberRepository : IUnitOfWork
 {
     Task<Member> GetMemberById(Guid id, CancellationToken cancellationToken);
 
     Task<IReadOnlyCollection<Member>> GetAllMembersAsync(CancellationToken cancellationToken);
 
-    Task Create(Member member, CancellationToken cancellationToken);
+    void Create(Member member, CancellationToken cancellationToken);
 
-    Task Update(Member member, CancellationToken cancellationToken);
+    void Update(Member member, CancellationToken cancellationToken);
 
-    Task Delete(Member member, CancellationToken cancellationToken);
+    void Delete(Member member, CancellationToken cancellationToken);
+
+    Task<bool> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken);
 }
