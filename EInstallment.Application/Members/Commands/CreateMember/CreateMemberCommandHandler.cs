@@ -3,7 +3,7 @@ using EInstallment.Domain.Members;
 using EInstallment.Domain.Shared;
 using EInstallment.Domain.ValueObjects;
 
-namespace EInstallment.Application.CreditCards.Commands.CreateMember;
+namespace EInstallment.Application.Members.Commands.CreateMember;
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1812:避免未具現化的內部類別", Justification = "<暫止>")]
 internal sealed class CreateMemberCommandHandler : ICommandHandler<CreateMemberCommand>
