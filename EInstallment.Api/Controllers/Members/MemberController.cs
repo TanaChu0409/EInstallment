@@ -32,7 +32,7 @@ public class MemberController : ApiController
             .ConfigureAwait(false);
 
         return result.Match(
-                    onSuccess: () => Results.Ok(),
+                    onSuccess: (value) => Results.Ok(value),
                     onFailure: (error) => Results.BadRequest(error));
     }
 }

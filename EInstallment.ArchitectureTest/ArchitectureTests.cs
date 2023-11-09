@@ -15,6 +15,9 @@ public class ArchitectureTests
     private static Assembly ApplicationAssembly =>
         Application.AssemblyReference.Assembly;
 
+    private static Assembly PersistenceAssembly =>
+        Persistence.AssemblyReference.Assembly;
+
     [Fact]
     public void Domain_Should_Not_HaveDependencyOnOtherProjects()
     {
@@ -46,6 +49,24 @@ public class ArchitectureTests
         var testResult = types.ShouldNot()
                              .HaveDependencyOnAll(otherProjects)
                              .GetResult();
+        // Assert
+        Assert.True(testResult.IsSuccessful);
+    }
+
+    [Fact]
+    public void Persistence_Should_Not_HaveDependencyOnOtherProjects()
+    {
+        // Arrange
+        var types = Types.InAssembly(PersistenceAssembly);
+        var otherProjects = new[]
+        {
+            _presetationNameSpace
+        };
+
+        // Act
+        var testResult = types.ShouldNot()
+                            .HaveDependencyOnAll(otherProjects)
+                            .GetResult();
         // Assert
         Assert.True(testResult.IsSuccessful);
     }

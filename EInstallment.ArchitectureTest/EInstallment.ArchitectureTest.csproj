@@ -26,6 +26,7 @@
     <ProjectReference Include="..\EInstallment.Api\EInstallment.Api.csproj" />
     <ProjectReference Include="..\EInstallment.Application\EInstallment.Application.csproj" />
     <ProjectReference Include="..\EInstallment.Domain\EInstallment.Domain.csproj" />
+    <ProjectReference Include="..\EInstallment.Persistence\EInstallment.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

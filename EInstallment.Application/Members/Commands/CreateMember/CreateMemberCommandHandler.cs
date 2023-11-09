@@ -7,7 +7,7 @@ using EInstallment.Domain.ValueObjects;
 namespace EInstallment.Application.Members.Commands.CreateMember;
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1812:避免未具現化的內部類別", Justification = "<暫止>")]
-internal sealed class CreateMemberCommandHandler : ICommandHandler<CreateMemberCommand>
+internal sealed class CreateMemberCommandHandler : ICommandHandler<CreateMemberCommand, Guid>
 {
     private readonly IMemberRepository _memberRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -20,13 +20,13 @@ internal sealed class CreateMemberCommandHandler : ICommandHandler<CreateMemberC
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result> Handle(CreateMemberCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(CreateMemberCommand request, CancellationToken cancellationToken)
     {
         var firstName = FirstName.Create(request.FirstName);
 
         if (firstName.IsFailure)
         {
-            return Result.Failure(firstName.Error);
+            return Result.Failure<Guid>(firstName.Error);
         }
 
         var lastName = LastName.Create(request.LastName);
@@ -42,11 +42,16 @@ internal sealed class CreateMemberCommandHandler : ICommandHandler<CreateMemberC
                         email.Value,
                         isEmailUnique);
 
+        if (member.IsFailure)
+        {
+            return Result.Failure<Guid>(member.Error);
+        }
+
         _memberRepository.Create(member.Value, cancellationToken);
         await _unitOfWork
                 .SaveEntitiesAsync(cancellationToken)
                 .ConfigureAwait(false);
 
-        return Result.Success();
+        return Result.Success(member.Value.Id);
     }
 }
