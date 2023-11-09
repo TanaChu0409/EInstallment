@@ -1,4 +1,6 @@
-﻿namespace EInstallment.Domain.Members;
+﻿using EInstallment.Domain.ValueObjects;
+
+namespace EInstallment.Domain.Members;
 
 public interface IMemberRepository
 {
@@ -6,9 +8,11 @@ public interface IMemberRepository
 
     Task<IReadOnlyCollection<Member>> GetAllMembersAsync(CancellationToken cancellationToken);
 
-    Task Create(Member member, CancellationToken cancellationToken);
+    void Create(Member member, CancellationToken cancellationToken);
 
-    Task Update(Member member, CancellationToken cancellationToken);
+    void Update(Member member, CancellationToken cancellationToken);
 
-    Task Delete(Member member, CancellationToken cancellationToken);
+    void Delete(Member member, CancellationToken cancellationToken);
+
+    Task<bool> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken);
 }

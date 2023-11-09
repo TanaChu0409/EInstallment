@@ -16,6 +16,7 @@ public class Result<TValue> : Result
         ? _value!
         : throw new InvalidOperationException("The value of a failure result can not be accessed.");
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2225:運算子多載有具名的替代項", Justification = "<暫止>")]
     public static implicit operator Result<TValue>(TValue? value) =>
         Create(value);
 }

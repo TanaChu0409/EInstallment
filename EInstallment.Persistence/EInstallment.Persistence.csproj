@@ -6,10 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-	<ItemGroup>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-			<_Parameter1>EInstallment.Application.UnitTest</_Parameter1>
-		</AssemblyAttribute>
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EInstallment.Domain\EInstallment.Domain.csproj" />
+  </ItemGroup>
 
 </Project>

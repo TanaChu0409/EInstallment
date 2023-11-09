@@ -1,4 +1,5 @@
-﻿using EInstallment.Domain.SeedWork;
+﻿using EInstallment.Domain.Errors;
+using EInstallment.Domain.SeedWork;
 using EInstallment.Domain.Shared;
 using EInstallment.Domain.ValueObjects;
 
@@ -30,8 +31,15 @@ public sealed class Member : Entity
     public static Result<Member> Create(
         FirstName firstName,
         LastName lastName,
-        Email email)
+        Email email,
+        bool isEmailUnique)
     {
+        // Validate user email is unique
+        if (!isEmailUnique)
+        {
+            return Result.Failure<Member>(DomainErrors.Member.EmailIsNotUnique);
+        }
+
         var member = new Member(
             Guid.NewGuid(),
             firstName,
