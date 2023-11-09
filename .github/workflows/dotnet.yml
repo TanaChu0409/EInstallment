@@ -24,5 +24,8 @@ jobs:
       run: dotnet restore EInstallment.sln
     - name: Build
       run: dotnet build EInstallment.sln --no-restore
-    # - name: Test
-    #   run: dotnet test --no-build --verbosity normal
+    - name: Architecture-test
+      run: dotnet test ./EInstallment.ArchitectureTest/EInstallment.ArchitectureTest.csproj --no-build --verbosity normal
+    - name: Test
+      if: always()
+      run: dotnet test ./EInstallment.Application.UnitTest/EInstallment.Application.UnitTest.csproj --no-build --verbosity normal

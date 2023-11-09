@@ -1,5 +1,5 @@
 ﻿using EInstallment.Api.Abstractions;
-using EInstallment.Application.CreditCards.Commands.CreateMember;
+using EInstallment.Application.Members.Commands.CreateMember;
 using EInstallment.Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

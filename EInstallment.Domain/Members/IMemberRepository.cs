@@ -1,9 +1,8 @@
-﻿using EInstallment.Domain.SeedWork;
-using EInstallment.Domain.ValueObjects;
+﻿using EInstallment.Domain.ValueObjects;
 
 namespace EInstallment.Domain.Members;
 
-public interface IMemberRepository : IUnitOfWork
+public interface IMemberRepository
 {
     Task<Member> GetMemberById(Guid id, CancellationToken cancellationToken);
 

@@ -150,6 +150,9 @@ csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
 # CA1812: 避免未具現化的內部類別
 dotnet_diagnostic.CA1812.severity = none
 
+# CA1707: 識別項不應包含底線
+dotnet_diagnostic.CA1707.severity = none
+
 [*.vb]
 #### 命名樣式 ####
 

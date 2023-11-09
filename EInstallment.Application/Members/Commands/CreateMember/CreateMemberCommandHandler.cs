@@ -1,5 +1,6 @@
 ﻿using EInstallment.Application.Abstractions.Messaging;
 using EInstallment.Domain.Members;
+using EInstallment.Domain.SeedWork;
 using EInstallment.Domain.Shared;
 using EInstallment.Domain.ValueObjects;
 
@@ -9,10 +10,14 @@ namespace EInstallment.Application.Members.Commands.CreateMember;
 internal sealed class CreateMemberCommandHandler : ICommandHandler<CreateMemberCommand>
 {
     private readonly IMemberRepository _memberRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreateMemberCommandHandler(IMemberRepository memberRepository)
+    public CreateMemberCommandHandler(
+        IMemberRepository memberRepository,
+        IUnitOfWork unitOfWork)
     {
         _memberRepository = memberRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result> Handle(CreateMemberCommand request, CancellationToken cancellationToken)
@@ -38,7 +43,7 @@ internal sealed class CreateMemberCommandHandler : ICommandHandler<CreateMemberC
                         isEmailUnique);
 
         _memberRepository.Create(member.Value, cancellationToken);
-        await _memberRepository
+        await _unitOfWork
                 .SaveEntitiesAsync(cancellationToken)
                 .ConfigureAwait(false);
 
