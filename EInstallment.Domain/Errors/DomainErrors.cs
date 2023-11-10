@@ -55,7 +55,11 @@ internal static class DomainErrors
     public static class Member
     {
         public static readonly Error EmailIsNotUnique = new(
-                "Gathering.EmailIsNotUnique",
+                "EInstallment.EmailIsNotUnique",
                 "Email was used, please use other email address");
+
+        public static readonly Error NotExist = new(
+            "EInstallment.MemberUpdate",
+            "Member is not exist");
     }
 }

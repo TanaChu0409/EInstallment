@@ -23,14 +23,23 @@ internal sealed class CreateMemberCommandHandler : ICommandHandler<CreateMemberC
     public async Task<Result<Guid>> Handle(CreateMemberCommand request, CancellationToken cancellationToken)
     {
         var firstName = FirstName.Create(request.FirstName);
-
         if (firstName.IsFailure)
         {
             return Result.Failure<Guid>(firstName.Error);
         }
 
         var lastName = LastName.Create(request.LastName);
+        if (lastName.IsFailure)
+        {
+            return Result.Failure<Guid>(lastName.Error);
+        }
+
         var email = Email.Create(request.Email);
+        if (email.IsFailure)
+        {
+            return Result.Failure<Guid>(email.Error);
+        }
+
         var isEmailUnique = await _memberRepository
                     .IsEmailUniqueAsync(email.Value, cancellationToken)
                     .ConfigureAwait(false);
