@@ -21,7 +21,7 @@ public class MemberController : ApiController
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IResult> CreateMemberAsync([FromBody] CreateMemberRequest CreatememberRequest, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateMemberAsync([FromBody] CreateMemberRequest CreatememberRequest, CancellationToken cancellationToken)
     {
         var result = await Sender.Send(
             new CreateMemberCommand(
@@ -32,7 +32,7 @@ public class MemberController : ApiController
             .ConfigureAwait(false);
 
         return result.Match(
-                    onSuccess: (value) => Results.Ok(value),
-                    onFailure: (error) => Results.BadRequest(error));
+                    onSuccess: (value) => Ok(value),
+                    onFailure: (errorResult) => HandleFailure(errorResult));
     }
 }
