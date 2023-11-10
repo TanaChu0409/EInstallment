@@ -1,4 +1,7 @@
-﻿namespace EInstallment.Api.Configurations;
+﻿using EInstallment.Application.Behaviors;
+using FluentValidation;
+
+namespace EInstallment.Api.Configurations;
 
 public class ApplicationServiceInstaller : IServiceInstaller
 {
@@ -7,6 +10,11 @@ public class ApplicationServiceInstaller : IServiceInstaller
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(Application.AssemblyReference.Assembly);
+            cfg.AddOpenBehavior(typeof(ValidatorPipelineBehavior<,>));
         });
+
+        services.AddValidatorsFromAssembly(
+            Application.AssemblyReference.Assembly,
+            includeInternalTypes: true);
     }
 }
