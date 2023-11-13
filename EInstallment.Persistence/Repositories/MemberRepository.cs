@@ -3,7 +3,7 @@ using EInstallment.Domain.ValueObjects;
 
 namespace EInstallment.Persistence.Repositories;
 
-public class MemberRepository : IMemberRepository
+public sealed class MemberRepository : IMemberRepository
 {
     public void Create(Member member, CancellationToken cancellationToken)
     {

@@ -1,5 +1,6 @@
 ﻿using EInstallment.Api.Abstractions;
 using EInstallment.Application.Members.Commands.CreateMember;
+using EInstallment.Application.Members.Commands.UpdateMember;
 using EInstallment.Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,18 +22,41 @@ public class MemberController : ApiController
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> CreateMemberAsync([FromBody] CreateMemberRequest CreatememberRequest, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateMemberAsync([FromBody] CreateMemberRequest creatememberRequest, CancellationToken cancellationToken)
     {
         var result = await Sender.Send(
             new CreateMemberCommand(
-                CreatememberRequest.FirstName,
-                CreatememberRequest.LastName,
-                CreatememberRequest.Email),
+                creatememberRequest.FirstName,
+                creatememberRequest.LastName,
+                creatememberRequest.Email),
             cancellationToken)
             .ConfigureAwait(false);
 
         return result.Match(
                     onSuccess: (value) => Ok(value),
                     onFailure: (errorResult) => HandleFailure(errorResult));
+    }
+
+    [Route("")]
+    [HttpPut]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<IActionResult> UpdateMemberAsync(
+        [FromBody] UpdateMemberRequest updateMemberRequest,
+        CancellationToken cancellationToken)
+    {
+        var result = await Sender.Send(
+            new UpdateMemberCommand(
+                updateMemberRequest.MemberId,
+                updateMemberRequest.FirstName,
+                updateMemberRequest.LastName,
+                updateMemberRequest.Email),
+            cancellationToken)
+            .ConfigureAwait(false);
+
+        return result.Match(
+                        onSuccess: () => Ok(),
+                        onFailure: (errorResult) => HandleFailure(errorResult));
     }
 }
