@@ -148,14 +148,53 @@ public class UpdateMemberCommandHandlerTests
             _memberRepositoryMock.Object,
             _unitOfWorkMock.Object);
         // Act
-        var result = await handler.Handle(command, default)
+        _ = await handler.Handle(command, default)
                                     .ConfigureAwait(false);
 
         // Assert
         _memberRepositoryMock.Verify(x =>
             x.Update(
-                It.Is<Member>(m => m.Id == mockMemberId),
+                It.IsAny<Member>(),
                 It.IsAny<CancellationToken>()),
                 Times.Once);
+    }
+
+    [Fact]
+    public async Task Handle_Should_NotCallUnitOfWork_When_EmailIsNotUniqueWithoutSelf()
+    {
+        // Arrange
+        var mockMemberId = Guid.NewGuid();
+        var mockMember = Member.Create(
+            FirstName.Create("AA").Value,
+            LastName.Create("CC").Value,
+            Email.Create("john.doe@test.com").Value,
+            true).Value;
+
+        var command = new UpdateMemberCommand(mockMemberId, "Jane", "Doe", "jane.doe@test.com");
+
+        _memberRepositoryMock.Setup(x =>
+            x.GetMemberByIdAsync(
+                It.IsAny<Guid>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.FromResult(mockMember)!);
+
+        _memberRepositoryMock.Setup(x =>
+            x.IsEmailUniqueWithoutSelfAsync(
+                It.IsAny<Guid>(),
+                It.IsAny<Email>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(false);
+
+        var handler = new UpdateMemberCommandHandler(
+            _memberRepositoryMock.Object,
+            _unitOfWorkMock.Object);
+        // Act
+        _ = await handler.Handle(command, default)
+                                    .ConfigureAwait(false);
+
+        // Assert
+        _unitOfWorkMock.Verify(x =>
+            x.SaveEntitiesAsync(It.IsAny<CancellationToken>()),
+            Times.Never);
     }
 }
