@@ -49,13 +49,22 @@ public sealed class Member : Entity
         return member;
     }
 
-    public void Update(
+    public Result Update(
         FirstName firstName,
         LastName lastName,
-        Email email)
+        Email email,
+        bool isEmailUnique)
     {
+        // Validate user email is unique
+        if (!isEmailUnique)
+        {
+            return Result.Failure(DomainErrors.Member.EmailIsNotUnique);
+        }
+
         FirstName = firstName;
         LastName = lastName;
         Email = email;
+
+        return Result.Success();
     }
 }

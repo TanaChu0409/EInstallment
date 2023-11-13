@@ -4,7 +4,7 @@ namespace EInstallment.Domain.Members;
 
 public interface IMemberRepository
 {
-    Task<Member> GetMemberById(Guid id, CancellationToken cancellationToken);
+    Task<Member?> GetMemberByIdAsync(Guid id, CancellationToken cancellationToken);
 
     Task<IReadOnlyCollection<Member>> GetAllMembersAsync(CancellationToken cancellationToken);
 
@@ -15,4 +15,6 @@ public interface IMemberRepository
     void Delete(Member member, CancellationToken cancellationToken);
 
     Task<bool> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken);
+
+    Task<bool> IsEmailUniqueWithoutSelfAsync(Guid id, Email email, CancellationToken cancellationToken);
 }

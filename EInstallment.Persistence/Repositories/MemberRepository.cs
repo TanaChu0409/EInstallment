@@ -3,7 +3,7 @@ using EInstallment.Domain.ValueObjects;
 
 namespace EInstallment.Persistence.Repositories;
 
-public class MemberRepository : IMemberRepository
+public sealed class MemberRepository : IMemberRepository
 {
     public void Create(Member member, CancellationToken cancellationToken)
     {
@@ -20,12 +20,17 @@ public class MemberRepository : IMemberRepository
         throw new NotImplementedException();
     }
 
-    public Task<Member> GetMemberById(Guid id, CancellationToken cancellationToken)
+    public Task<Member?> GetMemberByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
     public Task<bool> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> IsEmailUniqueWithoutSelfAsync(Guid id, Email email, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
