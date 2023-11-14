@@ -41,7 +41,7 @@ internal static class DomainErrors
             $"The last name can't over {ValueObjects.LastName.MaxLength}");
     }
 
-    public static class BankName
+    public static class CreditCardName
     {
         public static readonly Error Empty = new(
             "EInstallment.BankNameCreate",
@@ -49,7 +49,7 @@ internal static class DomainErrors
 
         public static readonly Error OverSize = new(
             "EInstallment.BankNameCreate",
-            $"The bank name can't over {ValueObjects.BankName.MaxLength}");
+            $"The bank name can't over {ValueObjects.CreditCardName.MaxLength}");
     }
 
     public static class Member
@@ -61,5 +61,12 @@ internal static class DomainErrors
         public static readonly Error NotExist = new(
             "EInstallment.MemberUpdate",
             "Member is not exist");
+    }
+
+    public static class CreditCard
+    {
+        public static readonly Error CreditCardNameIsNotUnique = new(
+            "EInstallment.CreditCardCreate",
+            "Credit card name was used, please use other name");
     }
 }
