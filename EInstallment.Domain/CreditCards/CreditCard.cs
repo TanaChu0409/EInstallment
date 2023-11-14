@@ -49,10 +49,10 @@ public sealed class CreditCard : Entity
     }
 
     public Result Update(
-        CreditCardName bankName,
+        CreditCardName creditCardName,
         int paymentDay)
     {
-        Name = bankName;
+        Name = creditCardName;
         PaymentDay = paymentDay;
         return Result.Success();
     }

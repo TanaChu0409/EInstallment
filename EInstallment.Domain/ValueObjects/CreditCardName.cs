@@ -8,6 +8,10 @@ public sealed class CreditCardName : ValueObject
 {
     public const int MaxLength = 100;
 
+    public const int GreaterThan = 0;
+
+    public const int LessThan = 32;
+
     private CreditCardName(string creditCardName)
     {
         Value = creditCardName;

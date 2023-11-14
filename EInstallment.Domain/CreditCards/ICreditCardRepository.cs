@@ -14,5 +14,5 @@ public interface ICreditCardRepository
 
     void Delete(CreditCard creditCard, CancellationToken cancellationToken);
 
-    Task<bool> IsCreditCardNameUniqueAsync(CreditCardName bankName, CancellationToken cancellationToken);
+    Task<bool> IsCreditCardNameUniqueAsync(CreditCardName creditCardName, CancellationToken cancellationToken);
 }

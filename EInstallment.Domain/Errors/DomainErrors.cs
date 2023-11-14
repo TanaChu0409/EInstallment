@@ -44,12 +44,12 @@ internal static class DomainErrors
     public static class CreditCardName
     {
         public static readonly Error Empty = new(
-            "EInstallment.BankNameCreate",
-            "The bank name can't be empty");
+            "EInstallment.CreditCardNameCreate",
+            "The credit card name can't be empty");
 
         public static readonly Error OverSize = new(
-            "EInstallment.BankNameCreate",
-            $"The bank name can't over {ValueObjects.CreditCardName.MaxLength}");
+            "EInstallment.CreditCardNameCreate",
+            $"The credit card name can't over {ValueObjects.CreditCardName.MaxLength}");
     }
 
     public static class Member

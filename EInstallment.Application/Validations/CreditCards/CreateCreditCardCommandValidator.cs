@@ -14,7 +14,7 @@ public sealed class CreateCreditCardCommandValidator :
             .MaximumLength(CreditCardName.MaxLength);
 
         RuleFor(rule => rule.PaymentDay)
-            .GreaterThan(0)
-            .LessThan(32);
+            .GreaterThan(CreditCardName.GreaterThan)
+            .LessThan(CreditCardName.LessThan);
     }
 }
