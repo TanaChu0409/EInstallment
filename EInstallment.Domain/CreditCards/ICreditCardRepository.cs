@@ -1,4 +1,6 @@
-﻿namespace EInstallment.Domain.CreditCards;
+﻿using EInstallment.Domain.ValueObjects;
+
+namespace EInstallment.Domain.CreditCards;
 
 public interface ICreditCardRepository
 {
@@ -11,4 +13,6 @@ public interface ICreditCardRepository
     void Update(CreditCard creditCard, CancellationToken cancellationToken);
 
     void Delete(CreditCard creditCard, CancellationToken cancellationToken);
+
+    Task<bool> IsCreditCardNameUniqueAsync(CreditCardName creditCardName, CancellationToken cancellationToken);
 }

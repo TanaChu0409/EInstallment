@@ -1,4 +1,5 @@
-﻿using EInstallment.Domain.Installments;
+﻿using EInstallment.Domain.Errors;
+using EInstallment.Domain.Installments;
 using EInstallment.Domain.Payments;
 using EInstallment.Domain.SeedWork;
 using EInstallment.Domain.Shared;
@@ -13,31 +14,46 @@ public sealed class CreditCard : Entity
 
     private CreditCard(
         Guid id,
-        BankName bankName,
-        DateTime paymentDateOnUtc)
+        CreditCardName name,
+        int paymentDay)
         : base(id)
     {
-        BankName = bankName;
-        PaymentDateOnUtc = paymentDateOnUtc;
+        Name = name;
+        PaymentDay = paymentDay;
     }
 
-    public BankName BankName { get; set; }
+    public CreditCardName Name { get; set; }
 
-    public DateTime PaymentDateOnUtc { get; set; }
+    public int PaymentDay { get; set; }
 
     public IReadOnlyCollection<Installment> Installments => _installments;
 
     public IReadOnlyCollection<Payment> Payments => _payments;
 
     public static Result<CreditCard> Create(
-        BankName bankName,
-        DateTime paymentDateOnUtc)
+        CreditCardName creditCardName,
+        int paymentDay,
+        bool isCreditCardNameUnique)
     {
+        if (!isCreditCardNameUnique)
+        {
+            return Result.Failure<CreditCard>(DomainErrors.CreditCard.CreditCardNameIsNotUnique);
+        }
+
         var creditCard = new CreditCard(
             Guid.NewGuid(),
-            bankName,
-            paymentDateOnUtc);
+            creditCardName,
+            paymentDay);
 
         return creditCard;
+    }
+
+    public Result Update(
+        CreditCardName creditCardName,
+        int paymentDay)
+    {
+        Name = creditCardName;
+        PaymentDay = paymentDay;
+        return Result.Success();
     }
 }
