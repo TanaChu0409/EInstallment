@@ -46,8 +46,14 @@ public sealed class CreditCard : Entity
 
     public Result Update(
         CreditCardName creditCardName,
-        int paymentDay)
+        int paymentDay,
+        bool isCreditCardNameUniqueWithoutItSelf)
     {
+        if (!isCreditCardNameUniqueWithoutItSelf)
+        {
+            return Result.Failure(DomainErrors.CreditCard.CreditCardNameIsNotUnique);
+        }
+
         Name = creditCardName;
         PaymentDay = paymentDay;
         return Result.Success();

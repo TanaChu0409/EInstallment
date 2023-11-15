@@ -10,8 +10,7 @@ public sealed class UpdateMemberCommandValidator :
     public UpdateMemberCommandValidator()
     {
         RuleFor(rule => rule.Id)
-            .NotEmpty()
-            .NotEqual(Guid.Empty);
+            .NotEmpty();
         RuleFor(rule => rule.FirstName)
             .NotEmpty()
             .MaximumLength(FirstName.MaxLength);
