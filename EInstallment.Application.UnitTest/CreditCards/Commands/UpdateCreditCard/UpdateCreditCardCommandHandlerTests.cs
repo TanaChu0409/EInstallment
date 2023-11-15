@@ -16,8 +16,8 @@ public class UpdateCreditCardCommandHandlerTests
     private readonly IUnitOfWork _unitOfWorkMock;
 
     private static readonly Guid Id = Guid.NewGuid();
-    private static readonly string UpdateCreditCardName = "玉山Ubear";
-    private static readonly int UpdatePaymentDay = 15;
+    private const string UpdateCreditCardName = "玉山Ubear";
+    private const int UpdatePaymentDay = 15;
     private static readonly CreditCardName creditCardName = CreditCardName.Create(UpdateCreditCardName).Value;
 
     public UpdateCreditCardCommandHandlerTests()
