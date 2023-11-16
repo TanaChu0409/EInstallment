@@ -22,7 +22,7 @@ internal sealed class UpdateMemberCommandHandler : ICommandHandler<UpdateMemberC
     public async Task<Result> Handle(UpdateMemberCommand request, CancellationToken cancellationToken)
     {
         var memeber = await _memberRepository
-                            .GetMemberByIdAsync(request.Id, cancellationToken)
+                            .GetByIdAsync(request.Id, cancellationToken)
                             .ConfigureAwait(false);
 
         if (memeber is null)

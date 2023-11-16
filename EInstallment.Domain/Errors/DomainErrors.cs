@@ -69,4 +69,30 @@ internal static class DomainErrors
             "EInstallment.CreditCardCreate",
             "Credit card name was used, please use other name");
     }
+
+    public static class ItemName
+    {
+        public static readonly Error Empty = new(
+            "EInstallment.ItemNameCreate",
+            "The item name can't be empty");
+
+        public static readonly Error OverSize = new(
+            "EInstallment.ItemNameCreate",
+            $"The item name can't over {ValueObjects.ItemName.MaxLength}");
+    }
+
+    public static class Installment
+    {
+        public static readonly Error TotalNumberOfInstallmentLessThanOne = new(
+                "EInstallment.CreateInstallment",
+                "The total number of installment can't less than one month");
+
+        public static readonly Error TotalAmountLessThanOne = new(
+                "EInstallment.CreateInstallment",
+                "The total amount can't less than $1 NTD");
+
+        public static readonly Error AmountOfEachInstallmentLessThanOne = new(
+                "EInstallment.CreateInstallment",
+                "The amount of each installment can't less than $1 NTD");
+    }
 }

@@ -20,7 +20,7 @@ public sealed class MemberRepository : IMemberRepository
         throw new NotImplementedException();
     }
 
-    public Task<Member?> GetMemberByIdAsync(Guid id, CancellationToken cancellationToken)
+    public Task<Member?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

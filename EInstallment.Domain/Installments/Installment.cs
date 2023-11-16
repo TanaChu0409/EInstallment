@@ -1,8 +1,10 @@
 ﻿using EInstallment.Domain.CreditCards;
+using EInstallment.Domain.Errors;
 using EInstallment.Domain.Members;
 using EInstallment.Domain.Payments;
 using EInstallment.Domain.SeedWork;
 using EInstallment.Domain.Shared;
+using EInstallment.Domain.ValueObjects;
 
 namespace EInstallment.Domain.Installments;
 
@@ -12,12 +14,12 @@ public sealed class Installment : Entity
 
     private Installment(
         Guid id,
-        string itemName,
+        ItemName itemName,
         int totalNumberOfInstallment,
         int alreadyPayNumberOfInstallment,
         int notPayNumberOfInstallment,
         decimal totalAmount,
-        decimal amountForEachInstallment,
+        decimal amountOfEachInstallment,
         Member creator,
         CreditCard creditCard)
         : base(id)
@@ -25,16 +27,15 @@ public sealed class Installment : Entity
         ItemName = itemName;
         TotalNumberOfInstallment = totalNumberOfInstallment;
         AlreadyPayNumberOfInstallment = alreadyPayNumberOfInstallment;
-        AmountForEachInstallment = amountForEachInstallment;
         NotPayNumberOfInstallment = notPayNumberOfInstallment;
         TotalAmount = totalAmount;
-        AmountForEachInstallment = amountForEachInstallment;
+        AmountOfEachInstallment = amountOfEachInstallment;
         CreateOnUtc = DateTime.UtcNow;
         Creator = creator;
         CreditCard = creditCard;
     }
 
-    public string ItemName { get; private set; }
+    public ItemName ItemName { get; private set; }
 
     public int TotalNumberOfInstallment { get; private set; }
 
@@ -44,7 +45,7 @@ public sealed class Installment : Entity
 
     public decimal TotalAmount { get; private set; }
 
-    public decimal AmountForEachInstallment { get; private set; }
+    public decimal AmountOfEachInstallment { get; private set; }
 
     public DateTime CreateOnUtc { get; private set; }
 
@@ -57,26 +58,39 @@ public sealed class Installment : Entity
     public CreditCard CreditCard { get; private set; }
 
     public static Result<Installment> Create(
-        string itemName,
+        ItemName itemName,
         int totalNumberOfInstallment,
-        int alreadyPayNumberOfInstallment,
-        int notPayNumberOfInstallment,
         decimal totalAmount,
-        decimal amountForEachInstallment,
+        decimal amountOfEachInstallment,
         Member creator,
         CreditCard creditCard)
     {
+        if (totalNumberOfInstallment <= 0)
+        {
+            return Result.Failure<Installment>(DomainErrors.Installment.TotalNumberOfInstallmentLessThanOne);
+        }
+
+        if (totalAmount <= 0.0m)
+        {
+            return Result.Failure<Installment>(DomainErrors.Installment.TotalAmountLessThanOne);
+        }
+
+        if (amountOfEachInstallment <= 0.0m)
+        {
+            return Result.Failure<Installment>(DomainErrors.Installment.AmountOfEachInstallmentLessThanOne);
+        }
+
         var installment = new Installment(
             Guid.NewGuid(),
             itemName,
             totalNumberOfInstallment,
-            alreadyPayNumberOfInstallment,
-            notPayNumberOfInstallment,
+            0,
+            totalNumberOfInstallment,
             totalAmount,
-            amountForEachInstallment,
+            amountOfEachInstallment,
             creator,
             creditCard);
 
-        return installment;
+        return Result.Success(installment);
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace EInstallment.Domain.SeedWork;
 
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S4035:Classes implementing \"IEquatable<T>\" should be sealed", Justification = "<暫止>")]
 public abstract class ValueObject : IEquatable<ValueObject>
 {
     public static bool operator ==(ValueObject? left, ValueObject? right) =>
@@ -8,6 +9,7 @@ public abstract class ValueObject : IEquatable<ValueObject>
     public static bool operator !=(ValueObject? left, ValueObject? right) =>
         !(left == right);
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S4136:Method overloads should be grouped together", Justification = "<暫止>")]
     public bool Equals(ValueObject? other)
     {
         return other is not null && ValuesAreEqual(other);
