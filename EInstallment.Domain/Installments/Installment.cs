@@ -1,4 +1,5 @@
 ﻿using EInstallment.Domain.CreditCards;
+using EInstallment.Domain.Errors;
 using EInstallment.Domain.Members;
 using EInstallment.Domain.Payments;
 using EInstallment.Domain.SeedWork;
@@ -60,10 +61,25 @@ public sealed class Installment : Entity
         ItemName itemName,
         int totalNumberOfInstallment,
         decimal totalAmount,
-        decimal amountForEachInstallment,
+        decimal amountOfEachInstallment,
         Member creator,
         CreditCard creditCard)
     {
+        if (totalNumberOfInstallment <= 0)
+        {
+            return Result.Failure<Installment>(DomainErrors.Installment.TotalNumberOfInstallmentLessThanOne);
+        }
+
+        if (totalAmount <= 0.0m)
+        {
+            return Result.Failure<Installment>(DomainErrors.Installment.TotalAmountLessThanOne);
+        }
+
+        if (amountOfEachInstallment < 0.0m)
+        {
+            return Result.Failure<Installment>(DomainErrors.Installment.AmountOfEachInstallmentLessThanOne);
+        }
+
         var installment = new Installment(
             Guid.NewGuid(),
             itemName,
@@ -71,10 +87,10 @@ public sealed class Installment : Entity
             0,
             totalNumberOfInstallment,
             totalAmount,
-            amountForEachInstallment,
+            amountOfEachInstallment,
             creator,
             creditCard);
 
-        return installment;
+        return Result.Success(installment);
     }
 }

@@ -80,4 +80,19 @@ internal static class DomainErrors
             "EInstallment.ItemNameCreate",
             $"The item name can't over {ValueObjects.ItemName.MaxLength}");
     }
+
+    public static class Installment
+    {
+        public static readonly Error TotalNumberOfInstallmentLessThanOne = new(
+                "EInstallment.CreateInstallment",
+                "The total number of installment can't less than one month");
+
+        public static readonly Error TotalAmountLessThanOne = new(
+                "EInstallment.CreateInstallment",
+                "The total amount can't less than $1 NTD");
+
+        public static readonly Error AmountOfEachInstallmentLessThanOne = new(
+                "EInstallment.CreateInstallment",
+                "The amount of each installment can't less than $1 NTD");
+    }
 }

@@ -27,7 +27,7 @@ public class UpdateMemberCommandHandlerTests
         var command = new UpdateMemberCommand(mockMemberId, "Jane", "Doe", "john.doe@test.com");
 
         _memberRepositoryMock.Setup(x =>
-            x.GetMemberByIdAsync(
+            x.GetByIdAsync(
                 It.IsAny<Guid>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.FromResult<Member>(null!)!);
@@ -61,7 +61,7 @@ public class UpdateMemberCommandHandlerTests
         var command = new UpdateMemberCommand(mockMemberId, "Jane", "Doe", "john.doe@test.com");
 
         _memberRepositoryMock.Setup(x =>
-            x.GetMemberByIdAsync(
+            x.GetByIdAsync(
                 It.IsAny<Guid>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.FromResult(mockMember)!);
@@ -97,7 +97,7 @@ public class UpdateMemberCommandHandlerTests
         var command = new UpdateMemberCommand(mockMemberId, "Jane", "Doe", "jane.doe@test.com");
 
         _memberRepositoryMock.Setup(x =>
-            x.GetMemberByIdAsync(
+            x.GetByIdAsync(
                 It.IsAny<Guid>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.FromResult(mockMember)!);
@@ -132,7 +132,7 @@ public class UpdateMemberCommandHandlerTests
         var command = new UpdateMemberCommand(mockMemberId, "Jane", "Doe", "jane.doe@test.com");
 
         _memberRepositoryMock.Setup(x =>
-            x.GetMemberByIdAsync(
+            x.GetByIdAsync(
                 It.IsAny<Guid>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.FromResult(mockMember)!);
@@ -173,7 +173,7 @@ public class UpdateMemberCommandHandlerTests
         var command = new UpdateMemberCommand(mockMemberId, "Jane", "Doe", "jane.doe@test.com");
 
         _memberRepositoryMock.Setup(x =>
-            x.GetMemberByIdAsync(
+            x.GetByIdAsync(
                 It.IsAny<Guid>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.FromResult(mockMember)!);

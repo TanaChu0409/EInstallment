@@ -1,5 +1,6 @@
 ﻿namespace EInstallment.Domain.SeedWork;
 
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S4035:Classes implementing \"IEquatable<T>\" should be sealed", Justification = "<暫止>")]
 public abstract class Entity : IEquatable<Entity>
 {
     protected Entity()
