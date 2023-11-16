@@ -75,7 +75,7 @@ public sealed class Installment : Entity
             return Result.Failure<Installment>(DomainErrors.Installment.TotalAmountLessThanOne);
         }
 
-        if (amountOfEachInstallment < 0.0m)
+        if (amountOfEachInstallment <= 0.0m)
         {
             return Result.Failure<Installment>(DomainErrors.Installment.AmountOfEachInstallmentLessThanOne);
         }

@@ -65,6 +65,11 @@ internal sealed class CreateInstallmentCommandHandler : ICommandHandler<CreateIn
                             creator,
                             creditCard);
 
+        if (installment.IsFailure)
+        {
+            return Result.Failure<Guid>(installment.Error);
+        }
+
         _installmentRepository.Create(installment.Value);
         await _unitOfWork
                 .SaveEntitiesAsync(cancellationToken)
