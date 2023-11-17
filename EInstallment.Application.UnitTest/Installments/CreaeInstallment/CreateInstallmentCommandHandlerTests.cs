@@ -28,6 +28,7 @@ public class CreateInstallmentCommandHandlerTests
     private readonly Member _member;
     private readonly CreditCard _creditCard;
 
+    private readonly ItemName _itemNameVO;
     private readonly FirstName _firstNameVO;
     private readonly LastName _lastNameVO;
     private readonly Email _emailVO;
@@ -55,6 +56,7 @@ public class CreateInstallmentCommandHandlerTests
         _lastNameVO = LastName.Create("Chu").Value;
         _emailVO = Email.Create("sunnychu1995@gmail.com").Value;
         _creditCardNameVO = CreditCardName.Create("Citi Bank Cash Back Plus").Value;
+        _itemNameVO = ItemName.Create(_itemName).Value;
 
         _member = Member.Create(_firstNameVO, _lastNameVO, _emailVO, true).Value;
         _creditCard = CreditCard.Create(_creditCardNameVO, 5, true).Value;
@@ -221,6 +223,40 @@ public class CreateInstallmentCommandHandlerTests
 
         // Assert
         result.IsSuccess.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task Handle_Should_CallOnCreateRepository_WhenAllConditionIsSatisfaction()
+    {
+        // Arrange
+        var command = new CreateInstallmentCommand(
+            _itemName,
+            _totalNumberOfInstallment,
+            _totalAmount,
+            _amountOfEachInstallment,
+            _memberId,
+            _creditCardId);
+
+        _memberRepositoryMock
+             .GetByIdAsync(_memberId, default)!
+             .Returns(_member);
+
+        _creditCardRepositoryMock
+            .GetByIdAsync(_creditCardId, default)!
+            .Returns(_creditCard);
+
+        // Act
+        var result = await _handler.Handle(command, default).ConfigureAwait(false);
+
+        // Assert
+        _installmentRepositoryMock.Received(1)
+            .Create(Arg.Is<Installment>(i => i.Id == result.Value &&
+                                             i.ItemName == _itemNameVO &&
+                                             i.TotalNumberOfInstallment == _totalNumberOfInstallment &&
+                                             i.TotalAmount == _totalAmount &&
+                                             i.AmountOfEachInstallment == _amountOfEachInstallment &&
+                                             i.Creator == _member &&
+                                             i.CreditCard == _creditCard));
     }
 
     [Fact]
