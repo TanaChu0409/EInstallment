@@ -94,5 +94,9 @@ internal static class DomainErrors
         public static readonly Error AmountOfEachInstallmentLessThanOne = new(
                 "EInstallment.CreateInstallment",
                 "The amount of each installment can't less than $1 NTD");
+
+        public static readonly Error StatusIsNotUpcoming = new(
+                "EInstallment.UpdateInstallment",
+                "The installment status isn't upcoming");
     }
 }

@@ -8,8 +8,9 @@ using EInstallment.Domain.Shared;
 using EInstallment.Domain.ValueObjects;
 using FluentAssertions;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 
-namespace EInstallment.Application.UnitTest.Installments.CreaeInstallment;
+namespace EInstallment.Application.UnitTest.Installments.CreateInstallment;
 
 public class CreateInstallmentCommandHandlerTests
 {
@@ -76,7 +77,7 @@ public class CreateInstallmentCommandHandlerTests
 
         _memberRepositoryMock
             .GetByIdAsync(_memberId, default)!
-            .Returns(Task.FromResult<Member>(null!));
+            .ReturnsNull();
 
         // Act
         var result = await _handler.Handle(command, default).ConfigureAwait(false);

@@ -20,6 +20,7 @@ public sealed class Installment : Entity
         int notPayNumberOfInstallment,
         decimal totalAmount,
         decimal amountOfEachInstallment,
+        InstallmentStatus status,
         Member creator,
         CreditCard creditCard)
         : base(id)
@@ -30,6 +31,7 @@ public sealed class Installment : Entity
         NotPayNumberOfInstallment = notPayNumberOfInstallment;
         TotalAmount = totalAmount;
         AmountOfEachInstallment = amountOfEachInstallment;
+        Status = status;
         CreateOnUtc = DateTime.UtcNow;
         Creator = creator;
         CreditCard = creditCard;
@@ -46,6 +48,8 @@ public sealed class Installment : Entity
     public decimal TotalAmount { get; private set; }
 
     public decimal AmountOfEachInstallment { get; private set; }
+
+    public InstallmentStatus Status { get; private set; }
 
     public DateTime CreateOnUtc { get; private set; }
 
@@ -65,19 +69,14 @@ public sealed class Installment : Entity
         Member creator,
         CreditCard creditCard)
     {
-        if (totalNumberOfInstallment <= 0)
-        {
-            return Result.Failure<Installment>(DomainErrors.Installment.TotalNumberOfInstallmentLessThanOne);
-        }
+        var verifyResult = VerifyInstallmentConditionIsSatisfaction(
+            totalNumberOfInstallment,
+            totalAmount,
+            amountOfEachInstallment);
 
-        if (totalAmount <= 0.0m)
+        if (verifyResult.IsFailure)
         {
-            return Result.Failure<Installment>(DomainErrors.Installment.TotalAmountLessThanOne);
-        }
-
-        if (amountOfEachInstallment <= 0.0m)
-        {
-            return Result.Failure<Installment>(DomainErrors.Installment.AmountOfEachInstallmentLessThanOne);
+            return Result.Failure<Installment>(verifyResult.Error);
         }
 
         var installment = new Installment(
@@ -88,9 +87,63 @@ public sealed class Installment : Entity
             totalNumberOfInstallment,
             totalAmount,
             amountOfEachInstallment,
+            InstallmentStatus.Upcoming,
             creator,
             creditCard);
 
         return Result.Success(installment);
+    }
+
+    public Result Update(
+        ItemName itemName,
+        int totalNumberOfInstallment,
+        decimal totalAmount,
+        decimal amountOfEachInstallment)
+    {
+        if (Status is not InstallmentStatus.Upcoming)
+        {
+            return Result.Failure(DomainErrors.Installment.StatusIsNotUpcoming);
+        }
+
+        var verifyResult = VerifyInstallmentConditionIsSatisfaction(
+            totalNumberOfInstallment,
+            totalAmount,
+            amountOfEachInstallment);
+
+        if (verifyResult.IsFailure)
+        {
+            return verifyResult;
+        }
+
+        ItemName = itemName;
+        TotalNumberOfInstallment = totalNumberOfInstallment;
+        TotalAmount = totalAmount;
+        AmountOfEachInstallment = amountOfEachInstallment;
+        ModifiedOnUtc = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    private static Result VerifyInstallmentConditionIsSatisfaction(
+        int totalNumberOfInstallment,
+        decimal totalAmount,
+        decimal amountOfEachInstallment)
+    {
+        if (totalNumberOfInstallment <= 0)
+        {
+            return Result.Failure(DomainErrors.Installment.TotalNumberOfInstallmentLessThanOne);
+        }
+
+        if (totalAmount <= 0.0m)
+        {
+            return Result.Failure(DomainErrors.Installment.TotalAmountLessThanOne);
+        }
+
+        if (amountOfEachInstallment <= 0.0m)
+        {
+            return Result.Failure(DomainErrors.Installment.AmountOfEachInstallmentLessThanOne);
+        }
+
+        return Result.Success();
     }
 }
