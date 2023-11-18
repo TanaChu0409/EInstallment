@@ -19,10 +19,12 @@ public class MemberController : ApiController
 
     [Route("")]
     [HttpPost]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(Guid))]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> CreateMemberAsync([FromBody] CreateMemberRequest creatememberRequest, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateMemberAsync(
+        [FromBody] CreateMemberRequest creatememberRequest,
+        CancellationToken cancellationToken)
     {
         var result = await Sender.Send(
             new CreateMemberCommand(

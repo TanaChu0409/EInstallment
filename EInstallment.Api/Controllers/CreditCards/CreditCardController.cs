@@ -19,7 +19,7 @@ public sealed class CreditCardController : ApiController
 
     [Route("")]
     [HttpPost]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(Guid))]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> CreateCreditCardAsync(
