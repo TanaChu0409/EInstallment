@@ -154,8 +154,7 @@ public class UpdateMemberCommandHandlerTests
         // Assert
         _memberRepositoryMock.Verify(x =>
             x.Update(
-                It.IsAny<Member>(),
-                It.IsAny<CancellationToken>()),
+                It.IsAny<Member>()),
                 Times.Once);
     }
 

@@ -84,8 +84,7 @@ public class CreateMemberCommandHandlerTests
         // Assert
         _memberRepositoryMock.Verify(x =>
             x.Create(
-                It.Is<Member>(m => m.Id == result.Value),
-                It.IsAny<CancellationToken>()),
+                It.Is<Member>(m => m.Id == result.Value)),
             Times.Once);
     }
 

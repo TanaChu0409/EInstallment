@@ -8,11 +8,11 @@ public interface IMemberRepository
 
     Task<IReadOnlyCollection<Member>> GetAllMembersAsync(CancellationToken cancellationToken);
 
-    void Create(Member member, CancellationToken cancellationToken);
+    void Create(Member member);
 
-    void Update(Member member, CancellationToken cancellationToken);
+    void Update(Member member);
 
-    void Delete(Member member, CancellationToken cancellationToken);
+    void Delete(Member member);
 
     Task<bool> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken);
 

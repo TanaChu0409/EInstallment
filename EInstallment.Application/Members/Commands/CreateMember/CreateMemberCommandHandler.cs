@@ -56,7 +56,7 @@ internal sealed class CreateMemberCommandHandler : ICommandHandler<CreateMemberC
             return Result.Failure<Guid>(member.Error);
         }
 
-        _memberRepository.Create(member.Value, cancellationToken);
+        _memberRepository.Create(member.Value);
         await _unitOfWork
                 .SaveEntitiesAsync(cancellationToken)
                 .ConfigureAwait(false);

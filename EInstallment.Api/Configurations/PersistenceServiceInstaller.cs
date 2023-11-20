@@ -1,4 +1,7 @@
-﻿using Scrutor;
+﻿using EInstallment.Persistence;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Scrutor;
 
 namespace EInstallment.Api.Configurations;
 
@@ -16,5 +19,18 @@ public class PersistenceServiceInstaller : IServiceInstaller
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                 .AsMatchingInterface()
                 .WithScopedLifetime());
+
+        static void ConfigureSqlOptions(SqlServerDbContextOptionsBuilder sqlOptions)
+        {
+            sqlOptions.MigrationsAssembly(typeof(Program).Assembly.FullName);
+            sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+        }
+
+        services.AddDbContext<EInstallmentContext>(options =>
+        {
+            options.UseSqlServer(
+                configuration.GetConnectionString("DefaultConnection"),
+                ConfigureSqlOptions);
+        });
     }
 }

@@ -68,7 +68,7 @@ internal sealed class UpdateMemberCommandHandler : ICommandHandler<UpdateMemberC
             return result;
         }
 
-        _memberRepository.Update(memeber, cancellationToken);
+        _memberRepository.Update(memeber);
         await _unitOfWork
                 .SaveEntitiesAsync(cancellationToken)
                 .ConfigureAwait(false);
