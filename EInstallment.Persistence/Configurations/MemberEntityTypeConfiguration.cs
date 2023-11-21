@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EInstallment.Persistence.Configurations;
 
-internal class MemberEntityTypeConfiguration
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1812:避免未具現化的內部類別", Justification = "<暫止>")]
+internal sealed class MemberEntityTypeConfiguration
     : IEntityTypeConfiguration<Member>
 {
     public void Configure(EntityTypeBuilder<Member> memberBuilder)
@@ -13,20 +14,18 @@ internal class MemberEntityTypeConfiguration
         memberBuilder.ToTable(nameof(Member));
         memberBuilder.HasKey(x => x.Id);
 
-        memberBuilder.OwnsOne(x => x.FirstName)
-                     .Property(x => x.Value)
-                     .HasColumnName(nameof(FirstName))
-                     .IsUnicode(true)
-                     .HasMaxLength(FirstName.MaxLength);
-        memberBuilder.OwnsOne(x => x.LastName)
-                     .Property(x => x.Value)
-                     .HasColumnName(nameof(LastName))
-                     .IsUnicode(true)
-                     .HasMaxLength(LastName.MaxLength);
-        memberBuilder.OwnsOne(x => x.Email)
-                     .Property(x => x.Value)
-                     .HasColumnName(nameof(Email))
-                     .IsUnicode(true)
-                     .HasMaxLength(Email.MaxLength);
+        memberBuilder
+            .Property(x => x.FirstName)
+            .HasConversion(x => x.Value, v => FirstName.Create(v).Value)
+            .HasMaxLength(FirstName.MaxLength);
+        memberBuilder
+            .Property(x => x.LastName)
+            .HasConversion(x => x.Value, v => LastName.Create(v).Value)
+            .HasMaxLength(LastName.MaxLength);
+        memberBuilder.Property(x => x.Email)
+            .HasConversion(x => x.Value, v => Email.Create(v).Value)
+            .HasMaxLength(Email.MaxLength);
+
+        memberBuilder.HasIndex(x => x.Email).IsUnique();
     }
 }

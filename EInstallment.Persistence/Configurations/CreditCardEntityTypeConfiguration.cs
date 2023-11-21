@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EInstallment.Persistence.Configurations;
 
-internal class CreditCardEntityTypeConfiguration
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1812:避免未具現化的內部類別", Justification = "<暫止>")]
+internal sealed class CreditCardEntityTypeConfiguration
     : IEntityTypeConfiguration<CreditCard>
 {
     public void Configure(EntityTypeBuilder<CreditCard> creditCardBuilder)
@@ -13,13 +14,9 @@ internal class CreditCardEntityTypeConfiguration
         creditCardBuilder.ToTable(nameof(CreditCard));
         creditCardBuilder.HasKey(x => x.Id);
 
-        creditCardBuilder.OwnsOne(x => x.Name)
-                         .Property(x => x.Value)
-                         .HasColumnName(nameof(CreditCard.Name))
-                         .IsUnicode(true)
-                         .HasMaxLength(CreditCardName.MaxLength);
-        //creditCardBuilder.HasMany(x => x.Installments)
-        //                 .WithOne(x => x.CreditCard)
-        //                 .HasForeignKey(x => x.CreditCard.Id);
+        creditCardBuilder
+            .Property(x => x.Name)
+            .HasConversion(x => x.Value, v => CreditCardName.Create(v).Value)
+            .HasMaxLength(CreditCardName.MaxLength);
     }
 }

@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EInstallment.Persistence.Configurations;
 
-internal class InstallmentEntityTypeConfiguration
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1812:避免未具現化的內部類別", Justification = "<暫止>")]
+internal sealed class InstallmentEntityTypeConfiguration
     : IEntityTypeConfiguration<Installment>
 {
     public void Configure(EntityTypeBuilder<Installment> installmentBuilder)
@@ -13,11 +14,10 @@ internal class InstallmentEntityTypeConfiguration
         installmentBuilder.ToTable(nameof(Installment));
         installmentBuilder.HasKey(x => x.Id);
 
-        installmentBuilder.OwnsOne(x => x.ItemName)
-                          .Property(x => x.Value)
-                          .HasColumnName(nameof(ItemName))
-                          .IsUnicode(true)
-                          .HasMaxLength(ItemName.MaxLength);
+        installmentBuilder
+            .Property(x => x.ItemName)
+            .HasConversion(x => x.Value, v => ItemName.Create(v).Value)
+            .HasMaxLength(ItemName.MaxLength);
 
         installmentBuilder.Property(x => x.TotalAmount)
                           .HasPrecision(10, 1);

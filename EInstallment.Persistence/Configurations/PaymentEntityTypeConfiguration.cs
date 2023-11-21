@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EInstallment.Persistence.Configurations;
 
-internal class PaymentEntityTypeConfiguration
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1812:避免未具現化的內部類別", Justification = "<暫止>")]
+internal sealed class PaymentEntityTypeConfiguration
     : IEntityTypeConfiguration<Payment>
 {
     public void Configure(EntityTypeBuilder<Payment> paymentBuilder)

@@ -7,10 +7,6 @@ namespace EInstallment.Domain.Members;
 
 public sealed class Member : Entity
 {
-    private Member()
-    {
-    }
-
     private Member(
         Guid id,
         FirstName firstName,
