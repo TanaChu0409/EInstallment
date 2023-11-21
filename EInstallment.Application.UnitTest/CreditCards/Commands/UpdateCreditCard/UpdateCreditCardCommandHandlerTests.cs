@@ -110,8 +110,7 @@ public class UpdateCreditCardCommandHandlerTests
             .Update(Arg.Is<CreditCard>(c =>
                         c.Id == creditCard.Value.Id &&
                         c.Name == creditCard.Value.Name &&
-                        c.PaymentDay == creditCard.Value.PaymentDay),
-                    default);
+                        c.PaymentDay == creditCard.Value.PaymentDay));
     }
 
     [Fact]
