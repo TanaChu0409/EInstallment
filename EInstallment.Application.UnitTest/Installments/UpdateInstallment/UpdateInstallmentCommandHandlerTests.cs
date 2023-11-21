@@ -1,6 +1,8 @@
 ﻿using EInstallment.Application.Installments.Commands.UpdateInstallment;
+using EInstallment.Domain.CreditCards;
 using EInstallment.Domain.Errors;
 using EInstallment.Domain.Installments;
+using EInstallment.Domain.Members;
 using EInstallment.Domain.SeedWork;
 using EInstallment.Domain.Shared;
 using EInstallment.Domain.ValueObjects;
@@ -25,6 +27,8 @@ public class UpdateInstallmentCommandHandlerTests
     private readonly ItemName _itemNameVO;
 
     private readonly Installment _installmentMock;
+    private readonly Member _memberMock;
+    private readonly CreditCard _creditCardMock;
 
     public UpdateInstallmentCommandHandlerTests()
     {
@@ -39,15 +43,23 @@ public class UpdateInstallmentCommandHandlerTests
         _totalNumberOfInstallment = 30;
         _totalAmount = 59999m;
         _amountOfEachInstallment = 1999m;
+
         _itemNameVO = ItemName.Create(_itemName).Value;
+        _memberMock = Member.Create(
+            FirstName.Create("AA").Value,
+            LastName.Create("CC").Value,
+            Email.Create("john.doe@test.com").Value,
+            true).Value;
+        _creditCardMock = CreditCard.Create(
+            CreditCardName.Create("玉山Ubear").Value, 15, true).Value;
 
         _installmentMock = Installment.Create(
             _itemNameVO,
             _totalNumberOfInstallment,
             _totalAmount,
             _amountOfEachInstallment,
-            null!,
-            null!).Value;
+            _memberMock,
+            _creditCardMock).Value;
     }
 
     [Fact]
@@ -121,7 +133,7 @@ public class UpdateInstallmentCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_Should_ReturnFailureResult_WhenAmountOfEachInstallmeIsZero()
+    public async Task Handle_Should_ReturnFailureResult_WhenAmountOfEachInstallmentIsZero()
     {
         // Arrange
         var command = new UpdateInstallmentCommand(
