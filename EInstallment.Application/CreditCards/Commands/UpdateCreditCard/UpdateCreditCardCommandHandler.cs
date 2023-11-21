@@ -52,7 +52,7 @@ internal sealed class UpdateCreditCardCommandHandler : ICommandHandler<UpdateCre
             return result;
         }
 
-        _creditCardRepository.Update(creditCard, cancellationToken);
+        _creditCardRepository.Update(creditCard);
         await _unitOfWork
             .SaveEntitiesAsync(cancellationToken)
             .ConfigureAwait(false);

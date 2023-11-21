@@ -8,13 +8,13 @@ public interface ICreditCardRepository
 
     Task<IReadOnlyCollection<CreditCard>> GetAllAsync(CancellationToken cancellationToken);
 
-    void Create(CreditCard creditCard, CancellationToken cancellationToken);
+    void Create(CreditCard creditCard);
 
-    void Update(CreditCard creditCard, CancellationToken cancellationToken);
+    void Update(CreditCard creditCard);
 
-    void Delete(CreditCard creditCard, CancellationToken cancellationToken);
+    void Delete(CreditCard creditCard);
 
     Task<bool> IsCreditCardNameUniqueAsync(CreditCardName creditCardName, CancellationToken cancellationToken);
 
-    Task<bool> IsCreditCardNameUniqueWithoutItSelfAsync(Guid Id, CreditCardName creditCardName, CancellationToken cancellationToken);
+    Task<bool> IsCreditCardNameUniqueWithoutItSelfAsync(Guid id, CreditCardName creditCardName, CancellationToken cancellationToken);
 }

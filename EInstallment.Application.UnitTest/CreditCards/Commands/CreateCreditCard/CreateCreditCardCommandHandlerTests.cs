@@ -93,8 +93,7 @@ public class CreateCreditCardCommandHandlerTests
         // Assert
         _creditCardRepositoryMock.Verify(x =>
             x.Create(
-                It.Is<CreditCard>(c => c.Id == result.Value),
-                It.IsAny<CancellationToken>()),
+                It.Is<CreditCard>(c => c.Id == result.Value)),
                 Times.Once);
     }
 

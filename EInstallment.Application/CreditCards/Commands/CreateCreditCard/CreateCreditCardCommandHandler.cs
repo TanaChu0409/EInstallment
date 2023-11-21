@@ -41,7 +41,7 @@ internal sealed class CreateCreditCardCommandHandler : ICommandHandler<CreateCre
             return Result.Failure<Guid>(creditCard.Error);
         }
 
-        _creditCardRepository.Create(creditCard.Value, cancellationToken);
+        _creditCardRepository.Create(creditCard.Value);
         await _unitOfWork
             .SaveEntitiesAsync(cancellationToken)
             .ConfigureAwait(false);
