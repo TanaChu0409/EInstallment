@@ -7,6 +7,10 @@ namespace EInstallment.Domain.Payments;
 
 public sealed class Payment : Entity
 {
+    protected Payment()
+    {
+    }
+
     private Payment(
         Guid id,
         decimal amount,
@@ -17,7 +21,9 @@ public sealed class Payment : Entity
         Amount = amount;
         CreateOnUtc = DateTime.UtcNow;
         Creator = creator;
+        CreatorId = creator.Id;
         Installment = installment;
+        InstallmentId = installment.Id;
     }
 
     public decimal Amount { get; private set; }
@@ -26,7 +32,11 @@ public sealed class Payment : Entity
 
     public Member Creator { get; private set; }
 
+    public Guid CreatorId { get; private set; }
+
     public Installment Installment { get; private set; }
+
+    public Guid InstallmentId { get; private set; }
 
     public static Result<Payment> Create(
         decimal amount,

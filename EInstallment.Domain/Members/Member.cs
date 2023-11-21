@@ -1,4 +1,6 @@
 ﻿using EInstallment.Domain.Errors;
+using EInstallment.Domain.Installments;
+using EInstallment.Domain.Payments;
 using EInstallment.Domain.SeedWork;
 using EInstallment.Domain.Shared;
 using EInstallment.Domain.ValueObjects;
@@ -7,6 +9,10 @@ namespace EInstallment.Domain.Members;
 
 public sealed class Member : Entity
 {
+    private readonly List<Installment> _installments = new();
+
+    private readonly List<Payment> _payments = new();
+
     private Member(
         Guid id,
         FirstName firstName,
@@ -27,6 +33,10 @@ public sealed class Member : Entity
     public Email Email { get; private set; }
 
     public DateTime CreateOnUtc { get; private set; }
+
+    public IReadOnlyCollection<Installment> Installments => _installments;
+
+    public IReadOnlyCollection<Payment> Payments => _payments;
 
     public static Result<Member> Create(
         FirstName firstName,

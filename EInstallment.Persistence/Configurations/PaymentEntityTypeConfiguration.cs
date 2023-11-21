@@ -15,5 +15,16 @@ internal sealed class PaymentEntityTypeConfiguration
 
         paymentBuilder.Property(x => x.Amount)
                       .HasPrecision(10, 1);
+
+        paymentBuilder.Ignore(x => x.Installment);
+        paymentBuilder.Ignore(x => x.Creator);
+
+        paymentBuilder.HasOne(x => x.Installment)
+                      .WithMany(x => x.Payments)
+                      .HasForeignKey(x => x.InstallmentId);
+
+        paymentBuilder.HasOne(x => x.Creator)
+                      .WithMany(x => x.Payments)
+                      .HasForeignKey(x => x.CreatorId);
     }
 }
