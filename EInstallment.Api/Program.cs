@@ -1,4 +1,5 @@
 using EInstallment.Api.Configurations;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,4 +24,14 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider
+        .GetRequiredService<EInstallment.Persistence.EInstallmentContext>();
+    await context.Database
+        .MigrateAsync()
+        .ConfigureAwait(false);
+}
+
+await app.RunAsync()
+    .ConfigureAwait(false);

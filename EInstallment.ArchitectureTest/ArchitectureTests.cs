@@ -6,7 +6,7 @@ namespace EInstallment.ArchitectureTest;
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1707:識別項不應包含底線", Justification = "<暫止>")]
 public class ArchitectureTests
 {
-    private readonly string _presetationNameSpace = Api.AssemblyReference.Namespace;
+    private readonly string _presentationNameSpace = Api.AssemblyReference.Namespace;
     private readonly string _applicationNameSpace = Application.AssemblyReference.Namespace;
 
     private static Assembly DomainAssembly =>
@@ -26,7 +26,7 @@ public class ArchitectureTests
         var otherProjects = new[]
         {
             _applicationNameSpace,
-            _presetationNameSpace,
+            _presentationNameSpace,
         };
         // Act
         var testResult = types.ShouldNot()
@@ -43,7 +43,7 @@ public class ArchitectureTests
         var types = Types.InAssembly(ApplicationAssembly);
         var otherProjects = new[]
         {
-            _presetationNameSpace,
+            _presentationNameSpace,
         };
         // Act
         var testResult = types.ShouldNot()
@@ -60,7 +60,7 @@ public class ArchitectureTests
         var types = Types.InAssembly(PersistenceAssembly);
         var otherProjects = new[]
         {
-            _presetationNameSpace
+            _presentationNameSpace
         };
 
         // Act

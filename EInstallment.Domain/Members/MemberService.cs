@@ -35,7 +35,7 @@ public sealed class MemberService
         // Create member
         var member = Member.Create(firstName, lastName, email, true);
 
-        _memberRepository.Create(member.Value, cancellationToken);
+        _memberRepository.Create(member.Value);
         await _unitOfWork
                 .SaveEntitiesAsync(cancellationToken)
                 .ConfigureAwait(false);

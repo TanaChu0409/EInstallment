@@ -1,15 +1,14 @@
-﻿using EInstallment.Domain.SeedWork;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace EInstallment.Persistence;
 
-public sealed class EInstallmentContext : IUnitOfWork
+public sealed class EInstallmentContext : DbContext
 {
-    public void Dispose()
+    public EInstallmentContext(DbContextOptions<EInstallmentContext> options)
+        : base(options)
     {
     }
 
-    public Task SaveEntitiesAsync(CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+    protected override void OnModelCreating(ModelBuilder modelBuilder) =>
+        modelBuilder.ApplyConfigurationsFromAssembly(AssemblyReference.Assembly);
 }

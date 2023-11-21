@@ -1,42 +1,60 @@
 ﻿using EInstallment.Domain.Members;
 using EInstallment.Domain.ValueObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace EInstallment.Persistence.Repositories;
 
 public sealed class MemberRepository : IMemberRepository
 {
-    public void Create(Member member, CancellationToken cancellationToken)
+    private readonly EInstallmentContext _context;
+
+    public MemberRepository(EInstallmentContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
     }
 
-    public void Delete(Member member, CancellationToken cancellationToken)
+    public void Create(Member member)
     {
-        throw new NotImplementedException();
+        _context.Set<Member>().Add(member);
     }
 
-    public Task<IReadOnlyCollection<Member>> GetAllMembersAsync(CancellationToken cancellationToken)
+    public void Delete(Member member)
     {
-        throw new NotImplementedException();
+        _context.Set<Member>().Remove(member);
     }
 
-    public Task<Member?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<Member>> GetAllMembersAsync(CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await _context.Set<Member>()
+            .ToListAsync(cancellationToken)
+            .ConfigureAwait(false);
     }
 
-    public Task<bool> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken)
+    public async Task<Member?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await _context.Set<Member>()
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken)
+            .ConfigureAwait(false);
     }
 
-    public Task<bool> IsEmailUniqueWithoutSelfAsync(Guid id, Email email, CancellationToken cancellationToken)
+    public async Task<bool> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await _context.Set<Member>()
+            .AnyAsync(x => x.Email == email, cancellationToken)
+            .ConfigureAwait(false);
     }
 
-    public void Update(Member member, CancellationToken cancellationToken)
+    public async Task<bool> IsEmailUniqueWithoutSelfAsync(Guid id, Email email, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await _context.Set<Member>()
+            .AnyAsync(x => x.Id != id &&
+                           x.Email == email,
+                      cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    public void Update(Member member)
+    {
+        _context.Set<Member>().Update(member);
     }
 }
