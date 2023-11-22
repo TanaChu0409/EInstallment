@@ -10,6 +10,10 @@ namespace EInstallment.Domain.Installments;
 
 public sealed class Installment : Entity
 {
+    protected Installment()
+    {
+    }
+
     private readonly List<Payment> _payments = new();
 
     private Installment(
@@ -34,7 +38,9 @@ public sealed class Installment : Entity
         Status = status;
         CreateOnUtc = DateTime.UtcNow;
         Creator = creator;
+        CreatorId = creator.Id;
         CreditCard = creditCard;
+        CreditCardId = creditCard.Id;
     }
 
     public ItemName ItemName { get; private set; }
@@ -57,9 +63,13 @@ public sealed class Installment : Entity
 
     public Member Creator { get; private set; }
 
+    public Guid CreatorId { get; private set; }
+
     public IReadOnlyCollection<Payment> Payments => _payments;
 
     public CreditCard CreditCard { get; private set; }
+
+    public Guid CreditCardId { get; private set; }
 
     public static Result<Installment> Create(
         ItemName itemName,
