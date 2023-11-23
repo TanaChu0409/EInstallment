@@ -1,4 +1,5 @@
 ﻿using EInstallment.Api.Abstractions;
+using EInstallment.Api.Contracts.Installments;
 using EInstallment.Application.Installments.Commands.CreateInstallment;
 using EInstallment.Application.Installments.Commands.UpdateInstallment;
 using EInstallment.Domain.Shared;

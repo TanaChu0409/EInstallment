@@ -1,4 +1,5 @@
 ﻿using EInstallment.Api.Abstractions;
+using EInstallment.Api.Contracts.Members;
 using EInstallment.Application.Members.Commands.CreateMember;
 using EInstallment.Application.Members.Commands.UpdateMember;
 using EInstallment.Domain.Shared;

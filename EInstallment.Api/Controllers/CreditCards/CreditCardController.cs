@@ -1,4 +1,5 @@
 ﻿using EInstallment.Api.Abstractions;
+using EInstallment.Api.Contracts.CreditCards;
 using EInstallment.Application.CreditCards.Commands.CreateCreditCard;
 using EInstallment.Application.CreditCards.Commands.UpdateCreditCard;
 using EInstallment.Domain.Shared;

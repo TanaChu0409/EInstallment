@@ -1,4 +1,4 @@
-﻿namespace EInstallment.Api.Controllers.CreditCards;
+﻿namespace EInstallment.Api.Contracts.CreditCards;
 
 public sealed record UpdateCreditCardRequest(
     Guid CreditCardId,

@@ -1,4 +1,4 @@
-﻿namespace EInstallment.Api.Controllers.Members;
+﻿namespace EInstallment.Api.Contracts.Members;
 
 public sealed record CreateMemberRequest(
     string FirstName,

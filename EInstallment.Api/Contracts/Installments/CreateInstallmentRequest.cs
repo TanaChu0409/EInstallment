@@ -1,4 +1,4 @@
-﻿namespace EInstallment.Api.Controllers.Installments;
+﻿namespace EInstallment.Api.Contracts.Installments;
 
 public sealed record CreateInstallmentRequest(
     string ItemName,

@@ -1,4 +1,4 @@
-﻿namespace EInstallment.Api.Controllers.CreditCards;
+﻿namespace EInstallment.Api.Contracts.CreditCards;
 
 public sealed record CreateCreditCardRequest(
     string CreditCardName,
