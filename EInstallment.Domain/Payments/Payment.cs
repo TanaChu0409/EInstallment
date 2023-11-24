@@ -49,7 +49,7 @@ public sealed class Payment : Entity
             creator,
             installment);
 
-        // rasie domain event for re-calculated installment
+        // Raise domain event for re-calculated installment
 
         return payment;
     }

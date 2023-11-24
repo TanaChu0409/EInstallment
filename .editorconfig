@@ -153,6 +153,15 @@ dotnet_diagnostic.CA1812.severity = none
 # CA1707: 識別項不應包含底線
 dotnet_diagnostic.CA1707.severity = none
 
+# Default severity for all analyzer diagnostics
+dotnet_analyzer_diagnostic.severity = none
+
+# CA1819: 屬性不應傳回陣列
+dotnet_diagnostic.CA1819.severity = none
+
+# CA1000: 請勿在泛型型別上宣告靜態成員
+dotnet_diagnostic.CA1000.severity = none
+
 [*.vb]
 #### 命名樣式 ####
 
