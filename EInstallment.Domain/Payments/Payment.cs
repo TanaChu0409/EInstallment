@@ -59,13 +59,10 @@ public sealed class Payment : Entity
         return payment;
     }
 
-    public Result ReCalculation()
+    public void ReCalculation()
     {
-        // Raise domain event for re-calculated installment
         RaiseDomainEvent(new InstallmentReCalculationDomainEvent(
             this.Amount,
             this.InstallmentId));
-
-        return Result.Success();
     }
 }

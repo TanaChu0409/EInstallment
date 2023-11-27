@@ -70,6 +70,9 @@ internal sealed class CreatePaymentCommandHandler
             return Result.Failure<Guid>(payment.Error);
         }
 
+        // re-calculation installment
+        payment.Value.ReCalculation();
+
         // add payment to payment repository
         _paymentRepository.Create(payment.Value);
 
