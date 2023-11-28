@@ -50,6 +50,21 @@ public sealed class Payment : Entity
             return Result.Failure<Payment>(DomainErrors.Payment.AmountLessThanOne);
         }
 
+        if (amount > installment.TotalAmount)
+        {
+            return Result.Failure<Payment>(DomainErrors.Payment.AmountGreaterThanInstallmentAmount);
+        }
+
+        if (installment.Status == InstallmentStatus.Finish)
+        {
+            return Result.Failure<Payment>(DomainErrors.Payment.InstallmentIsFinish);
+        }
+
+        if (installment.Status == InstallmentStatus.Close)
+        {
+            return Result.Failure<Payment>(DomainErrors.Payment.InstallmentIsClose);
+        }
+
         var payment = new Payment(
             Guid.NewGuid(),
             amount,

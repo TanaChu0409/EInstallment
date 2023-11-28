@@ -1,5 +1,6 @@
 ﻿using EInstallment.Application.Payments.Commands.CreatePayment;
 using EInstallment.Domain.CreditCards;
+using EInstallment.Domain.Errors;
 using EInstallment.Domain.Installments;
 using EInstallment.Domain.Members;
 using EInstallment.Domain.Payments;
@@ -131,5 +132,142 @@ public class CreatePaymentCommandHandlerTests
             new Error(
                 "CreatePayment",
                 "Amount must be greater than zero."));
+    }
+
+    [Fact]
+    public async Task Handler_Should_ReturnFailureResult_WhenAmountIsGreaterThanInstallmentAmount()
+    {
+        // Arrange
+        var command = new CreatePaymentCommand(60000m, _creatorId, _installmentId);
+
+        _memberRepositoryMock
+            .GetByIdAsync(_creatorId, default)
+            .Returns(_member);
+
+        _installmentRepositoryMock
+            .GetByIdAsync(_creatorId, default)
+            .Returns(_installment);
+
+        // Act
+        var result = await _handler.Handle(command, default).ConfigureAwait(false);
+
+        // Assert
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().BeEquivalentTo(DomainErrors.Payment.AmountGreaterThanInstallmentAmount);
+    }
+
+    [Fact]
+    public async Task Handler_Should_NotCallUnitOfWork_WhenMemberNotFound()
+    {
+        // Arrange
+        var command = new CreatePaymentCommand(
+                        _amount,
+                        _creatorId,
+                        _installmentId);
+
+        _memberRepositoryMock
+            .GetByIdAsync(_creatorId, default)
+            .ReturnsNull();
+
+        // Act
+        var result = await _handler.Handle(command, default).ConfigureAwait(false);
+
+        // Assert
+        await _unitOfWorkMock
+            .DidNotReceive()
+            .SaveEntitiesAsync(default)
+            .ConfigureAwait(false);
+    }
+
+    [Fact]
+    public async Task Handler_Should_NotCallUnitOfWork_WhenAmountIsLessThanOne()
+    {
+        // Arrange
+        var command = new CreatePaymentCommand(0m, _creatorId, _installmentId);
+
+        _memberRepositoryMock
+            .GetByIdAsync(_creatorId, default)
+            .Returns(_member);
+
+        _installmentRepositoryMock
+            .GetByIdAsync(_installmentId, default)
+            .Returns(_installment);
+
+        // Act
+        var result = await _handler.Handle(command, default).ConfigureAwait(false);
+
+        // Assert
+        await _unitOfWorkMock
+            .DidNotReceive()
+            .SaveEntitiesAsync(default)
+            .ConfigureAwait(false);
+    }
+
+    [Fact]
+    public async Task Handler_Should_NotCallUnitOfWork_WhenAmountIsGreaterThanInstallmentAmount()
+    {
+        // Arrange
+        var command = new CreatePaymentCommand(60000m, _creatorId, _installmentId);
+
+        _memberRepositoryMock
+            .GetByIdAsync(_creatorId, default)
+            .Returns(_member);
+
+        _installmentRepositoryMock
+            .GetByIdAsync(_installmentId, default)
+            .Returns(_installment);
+
+        // Act
+        var result = await _handler.Handle(command, default).ConfigureAwait(false);
+
+        // Assert
+        await _unitOfWorkMock
+            .DidNotReceive()
+            .SaveEntitiesAsync(default)
+            .ConfigureAwait(false);
+    }
+
+    [Fact]
+    public async Task Handler_Should_ReturnSuccessResult_WhenAllConditionIsSatisfaction()
+    {
+        // Arrange
+        var command = new CreatePaymentCommand(1999m, _creatorId, _installmentId);
+
+        _memberRepositoryMock
+            .GetByIdAsync(_creatorId, default)
+            .Returns(_member);
+
+        _installmentRepositoryMock
+            .GetByIdAsync(_installmentId, default)
+            .Returns(_installment);
+
+        // Act
+        var result = await _handler.Handle(command, default).ConfigureAwait(false);
+
+        // Assert
+        result.IsSuccess.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task Handler_Should_CallCreateOnRepository_WhenAllConditionIsSatisfaction()
+    {
+        // Arrange
+        var command = new CreatePaymentCommand(1999m, _creatorId, _installmentId);
+
+        _memberRepositoryMock
+            .GetByIdAsync(_creatorId, default)
+            .Returns(_member);
+
+        _installmentRepositoryMock
+            .GetByIdAsync(_installmentId, default)
+            .Returns(_installment);
+
+        // Act
+        var result = await _handler.Handle(command, default).ConfigureAwait(false);
+
+        // Assert
+        _paymentRepositoryMock
+            .Received(1)
+            .Create(Arg.Is<Domain.Payments.Payment>(p => p.Id == result.Value));
     }
 }
