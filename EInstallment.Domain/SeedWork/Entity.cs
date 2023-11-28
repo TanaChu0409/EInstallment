@@ -1,8 +1,9 @@
 ﻿namespace EInstallment.Domain.SeedWork;
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S4035:Classes implementing \"IEquatable<T>\" should be sealed", Justification = "<暫止>")]
 public abstract class Entity : IEquatable<Entity>
 {
+    private readonly List<IDomainEvent> _domainEvents = new();
+
     protected Entity()
     {
     }
@@ -59,4 +60,13 @@ public abstract class Entity : IEquatable<Entity>
     {
         return Id.GetHashCode() * 31;
     }
+
+    public IReadOnlyCollection<IDomainEvent> GetDomainEvents() =>
+        _domainEvents.ToList();
+
+    public void ClearDomainEvents() =>
+        _domainEvents.Clear();
+
+    protected void RaiseDomainEvent(IDomainEvent domainEvent) =>
+        _domainEvents.Add(domainEvent);
 }

@@ -1,4 +1,6 @@
-﻿using EInstallment.Domain.Installments;
+﻿using EInstallment.Domain.DomainEvents.Installments;
+using EInstallment.Domain.Errors;
+using EInstallment.Domain.Installments;
 using EInstallment.Domain.Members;
 using EInstallment.Domain.SeedWork;
 using EInstallment.Domain.Shared;
@@ -43,14 +45,39 @@ public sealed class Payment : Entity
         Member creator,
         Installment installment)
     {
+        if (amount < 1m)
+        {
+            return Result.Failure<Payment>(DomainErrors.Payment.AmountLessThanOne);
+        }
+
+        if (amount > installment.TotalAmount)
+        {
+            return Result.Failure<Payment>(DomainErrors.Payment.AmountGreaterThanInstallmentAmount);
+        }
+
+        if (installment.Status == InstallmentStatus.Finish)
+        {
+            return Result.Failure<Payment>(DomainErrors.Payment.InstallmentIsFinish);
+        }
+
+        if (installment.Status == InstallmentStatus.Close)
+        {
+            return Result.Failure<Payment>(DomainErrors.Payment.InstallmentIsClose);
+        }
+
         var payment = new Payment(
             Guid.NewGuid(),
             amount,
             creator,
             installment);
 
-        // rasie domain event for re-calculated installment
-
         return payment;
+    }
+
+    public void ReCalculation()
+    {
+        RaiseDomainEvent(new InstallmentReCalculationDomainEvent(
+            this.Amount,
+            this.InstallmentId));
     }
 }

@@ -99,4 +99,23 @@ internal static class DomainErrors
                 "EInstallment.UpdateInstallment",
                 "The installment status isn't upcoming");
     }
+
+    public static class Payment
+    {
+        public static readonly Error AmountLessThanOne = new(
+            "EInstallment.CreatePayment",
+            "The amount can't less than $1 NTD");
+
+        public static readonly Error AmountGreaterThanInstallmentAmount = new(
+            "EInstallment.CreatePayment",
+            "The amount can't great than installment amount");
+
+        public static readonly Error InstallmentIsFinish = new(
+            "EInstallment.CreatePayment",
+            "The installment is finish");
+
+        public static readonly Error InstallmentIsClose = new(
+            "EInstallment.CreatePayment",
+            "The installment is close");
+    }
 }
