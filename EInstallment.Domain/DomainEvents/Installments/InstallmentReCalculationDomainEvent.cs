@@ -3,4 +3,5 @@
 namespace EInstallment.Domain.DomainEvents.Installments;
 public sealed record InstallmentReCalculationDomainEvent(
     decimal PaymentAmount,
-    Guid InstallmentId) : IDomainEvent;
+    Guid InstallmentId,
+    Guid PaymentId) : IDomainEvent;

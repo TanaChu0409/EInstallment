@@ -27,10 +27,13 @@ internal sealed class InstallmentReCalculationDomainEventHandler
 
         if (installment is null)
         {
-            throw new InvalidOperationException(
-                $"Installment with id {notification.InstallmentId} not found.");
+            return;
         }
 
-        throw new NotImplementedException();
+        installment.ReCalculation(notification.PaymentAmount, notification.PaymentId);
+        _installmentRepository.Update(installment);
+        await _unitOfWork
+            .SaveEntitiesAsync(cancellationToken)
+            .ConfigureAwait(false);
     }
 }

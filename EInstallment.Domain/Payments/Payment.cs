@@ -17,7 +17,8 @@ public sealed class Payment : Entity
         Guid id,
         decimal amount,
         Member creator,
-        Installment installment)
+        Installment installment,
+        PaymentStatus status)
         : base(id)
     {
         Amount = amount;
@@ -26,6 +27,7 @@ public sealed class Payment : Entity
         CreatorId = creator.Id;
         Installment = installment;
         InstallmentId = installment.Id;
+        Status = status;
     }
 
     public decimal Amount { get; private set; }
@@ -39,6 +41,8 @@ public sealed class Payment : Entity
     public Installment Installment { get; private set; }
 
     public Guid InstallmentId { get; private set; }
+
+    public PaymentStatus Status { get; private set; }
 
     public static Result<Payment> Create(
         decimal amount,
@@ -69,15 +73,18 @@ public sealed class Payment : Entity
             Guid.NewGuid(),
             amount,
             creator,
-            installment);
+            installment,
+            PaymentStatus.Upcoming);
 
         return payment;
     }
 
     public void ReCalculation()
     {
+        Status = PaymentStatus.Processing;
         RaiseDomainEvent(new InstallmentReCalculationDomainEvent(
             this.Amount,
-            this.InstallmentId));
+            this.InstallmentId,
+            this.Id));
     }
 }

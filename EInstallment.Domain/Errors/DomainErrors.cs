@@ -98,6 +98,18 @@ internal static class DomainErrors
         public static readonly Error StatusIsNotUpcoming = new(
                 "EInstallment.UpdateInstallment",
                 "The installment status isn't upcoming");
+
+        public static readonly Error CanNotPaymentAtNotPayNumberOfInstallIsZero = new(
+                "EInstallment.InstallmentReCalculationDomainEvent",
+                "Can't payment at not pay number of installment is zero");
+
+        public static readonly Error CanNotPaymentAtAlreadyPayNumberOfInstallmentIsGreaterOrEqualThanTotalNumberOfInstallment = new Error(
+                "EInstallment.InstallmentReCalculationDomainEvent",
+                "Can't payment at already pay number of installment is greater or equal than total number of installment");
+
+        public static readonly Error InstallmentStillOpening = new(
+                "EInstallment.CloseInstallment",
+                "The installment still opening");
     }
 
     public static class Payment
