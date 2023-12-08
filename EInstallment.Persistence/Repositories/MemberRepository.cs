@@ -6,9 +6,9 @@ namespace EInstallment.Persistence.Repositories;
 
 public sealed class MemberRepository : IMemberRepository
 {
-    private readonly EInstallmentContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public MemberRepository(EInstallmentContext context)
+    public MemberRepository(ApplicationDbContext context)
     {
         _context = context;
     }

@@ -6,9 +6,9 @@ namespace EInstallment.Persistence.Repositories;
 
 public sealed class CreditCardRepository : ICreditCardRepository
 {
-    private readonly EInstallmentContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public CreditCardRepository(EInstallmentContext context)
+    public CreditCardRepository(ApplicationDbContext context)
     {
         _context = context;
     }

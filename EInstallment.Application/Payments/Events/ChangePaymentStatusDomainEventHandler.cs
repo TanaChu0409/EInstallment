@@ -19,8 +19,32 @@ internal sealed class ChangePaymentStatusDomainEventHandler
         _unitOfWork = unitOfWork;
     }
 
-    public Task Handle(ChangePaymentStatusDomainEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(ChangePaymentStatusDomainEvent notification, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var payment = await _paymentRepository
+            .GetByIdAsync(notification.PaymentId, cancellationToken)
+            .ConfigureAwait(false);
+
+        if (payment is null)
+        {
+            return;
+        }
+
+        if (notification.Error is not null)
+        {
+            payment.ChangeStatus(PaymentStatus.Failed);
+            payment.SetErrorMessage(notification.Error.Message);
+        }
+        else
+        {
+            payment.ChangeStatus(PaymentStatus.Success);
+            payment.ClearErrorMessage();
+        }
+
+        _paymentRepository.Update(payment);
+
+        await _unitOfWork
+            .SaveEntitiesAsync(cancellationToken)
+            .ConfigureAwait(false);
     }
 }

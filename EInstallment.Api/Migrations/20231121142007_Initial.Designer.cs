@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EInstallment.Api.Migrations
 {
-    [DbContext(typeof(EInstallmentContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20231121142007_Initial")]
     partial class Initial
     {

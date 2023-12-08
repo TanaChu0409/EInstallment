@@ -18,7 +18,8 @@ public sealed class Payment : Entity
         decimal amount,
         Member creator,
         Installment installment,
-        PaymentStatus status)
+        PaymentStatus status,
+        string? errorMessage)
         : base(id)
     {
         Amount = amount;
@@ -28,6 +29,7 @@ public sealed class Payment : Entity
         Installment = installment;
         InstallmentId = installment.Id;
         Status = status;
+        ErrorMessage = errorMessage;
     }
 
     public decimal Amount { get; private set; }
@@ -44,29 +46,17 @@ public sealed class Payment : Entity
 
     public PaymentStatus Status { get; private set; }
 
+    public string? ErrorMessage { get; private set; }
+
     public static Result<Payment> Create(
         decimal amount,
         Member creator,
         Installment installment)
     {
-        if (amount < 1m)
+        var validationResult = ValidatePayment(amount, installment);
+        if (validationResult.IsFailure)
         {
-            return Result.Failure<Payment>(DomainErrors.Payment.AmountLessThanOne);
-        }
-
-        if (amount > installment.TotalAmount)
-        {
-            return Result.Failure<Payment>(DomainErrors.Payment.AmountGreaterThanInstallmentAmount);
-        }
-
-        if (installment.Status == InstallmentStatus.Finish)
-        {
-            return Result.Failure<Payment>(DomainErrors.Payment.InstallmentIsFinish);
-        }
-
-        if (installment.Status == InstallmentStatus.Close)
-        {
-            return Result.Failure<Payment>(DomainErrors.Payment.InstallmentIsClose);
+            return Result.Failure<Payment>(validationResult.Error);
         }
 
         var payment = new Payment(
@@ -74,9 +64,25 @@ public sealed class Payment : Entity
             amount,
             creator,
             installment,
-            PaymentStatus.Upcoming);
+            PaymentStatus.Upcoming,
+            null);
 
         return payment;
+    }
+
+    public void ChangeStatus(PaymentStatus status)
+    {
+        Status = status;
+    }
+
+    public void SetErrorMessage(string errorMessage)
+    {
+        ErrorMessage = errorMessage;
+    }
+
+    public void ClearErrorMessage()
+    {
+        ErrorMessage = null;
     }
 
     public void ReCalculation()
@@ -86,5 +92,30 @@ public sealed class Payment : Entity
             this.Amount,
             this.InstallmentId,
             this.Id));
+    }
+
+    public static Result ValidatePayment(decimal amount, Installment installment)
+    {
+        if (amount < 1m)
+        {
+            return Result.Failure(DomainErrors.Payment.AmountLessThanOne);
+        }
+
+        if (amount > installment.TotalAmount)
+        {
+            return Result.Failure(DomainErrors.Payment.AmountGreaterThanInstallmentAmount);
+        }
+
+        if (installment.Status == InstallmentStatus.Finish)
+        {
+            return Result.Failure(DomainErrors.Payment.InstallmentIsFinish);
+        }
+
+        if (installment.Status == InstallmentStatus.Close)
+        {
+            return Result.Failure(DomainErrors.Payment.InstallmentIsClose);
+        }
+
+        return Result.Success();
     }
 }

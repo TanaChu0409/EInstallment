@@ -177,10 +177,9 @@ public sealed class Installment : Entity
             Status = InstallmentStatus.Finish;
         }
 
-        var paymentInfo = _payments.FirstOrDefault(x => x.Id == paymentId);
+        var paymentInfo = _payments.Find(x => x.Id == paymentId);
         if (paymentInfo is not null)
         {
-            // call change payment status domain event
             RaiseDomainEvent(new ChangePaymentStatusDomainEvent(paymentId, null));
         }
 
