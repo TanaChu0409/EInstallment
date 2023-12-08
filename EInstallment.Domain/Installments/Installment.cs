@@ -1,4 +1,5 @@
 ﻿using EInstallment.Domain.CreditCards;
+using EInstallment.Domain.DomainEvents.Payments;
 using EInstallment.Domain.Errors;
 using EInstallment.Domain.Members;
 using EInstallment.Domain.Payments;
@@ -23,6 +24,7 @@ public sealed class Installment : Entity
         int alreadyPayNumberOfInstallment,
         int notPayNumberOfInstallment,
         decimal totalAmount,
+        decimal lastAmount,
         decimal amountOfEachInstallment,
         InstallmentStatus status,
         Member creator,
@@ -33,6 +35,7 @@ public sealed class Installment : Entity
         TotalNumberOfInstallment = totalNumberOfInstallment;
         AlreadyPayNumberOfInstallment = alreadyPayNumberOfInstallment;
         NotPayNumberOfInstallment = notPayNumberOfInstallment;
+        LastAmount = lastAmount;
         TotalAmount = totalAmount;
         AmountOfEachInstallment = amountOfEachInstallment;
         Status = status;
@@ -52,6 +55,8 @@ public sealed class Installment : Entity
     public int NotPayNumberOfInstallment { get; private set; }
 
     public decimal TotalAmount { get; private set; }
+
+    public decimal LastAmount { get; private set; }
 
     public decimal AmountOfEachInstallment { get; private set; }
 
@@ -96,6 +101,7 @@ public sealed class Installment : Entity
             0,
             totalNumberOfInstallment,
             totalAmount,
+            totalAmount,
             amountOfEachInstallment,
             InstallmentStatus.Upcoming,
             creator,
@@ -131,6 +137,63 @@ public sealed class Installment : Entity
         AmountOfEachInstallment = amountOfEachInstallment;
         ModifiedOnUtc = DateTime.UtcNow;
 
+        return Result.Success();
+    }
+
+    public Result ReCalculation(decimal paymentAmount, Guid paymentId)
+    {
+        if (NotPayNumberOfInstallment < 1)
+        {
+            RaiseDomainEvent(new ChangePaymentStatusDomainEvent(
+                paymentId,
+                DomainErrors.Installment.CanNotPaymentAtNotPayNumberOfInstallIsZero));
+            return Result.Failure(DomainErrors.Installment.CanNotPaymentAtNotPayNumberOfInstallIsZero);
+        }
+
+        if (AlreadyPayNumberOfInstallment >= TotalNumberOfInstallment)
+        {
+            RaiseDomainEvent(new ChangePaymentStatusDomainEvent(
+                paymentId,
+                DomainErrors.Installment.CanNotPaymentAtAlreadyPayNumberOfInstallmentIsGreaterOrEqualThanTotalNumberOfInstallment));
+            return Result.Failure(DomainErrors.Installment.CanNotPaymentAtAlreadyPayNumberOfInstallmentIsGreaterOrEqualThanTotalNumberOfInstallment);
+        }
+
+        if (Status == InstallmentStatus.Upcoming)
+        {
+            Status = InstallmentStatus.Open;
+        }
+
+        LastAmount -= paymentAmount;
+
+        if (LastAmount < 0m)
+        {
+            LastAmount = 0m;
+        }
+
+        --NotPayNumberOfInstallment;
+
+        if (NotPayNumberOfInstallment < 1)
+        {
+            Status = InstallmentStatus.Finish;
+        }
+
+        var paymentInfo = _payments.Find(x => x.Id == paymentId);
+        if (paymentInfo is not null)
+        {
+            RaiseDomainEvent(new ChangePaymentStatusDomainEvent(paymentId, null));
+        }
+
+        return Result.Success();
+    }
+
+    public Result CloseInstallment()
+    {
+        if (Status is not InstallmentStatus.Finish)
+        {
+            return Result.Failure(DomainErrors.Installment.InstallmentStillOpening);
+        }
+
+        Status = InstallmentStatus.Close;
         return Result.Success();
     }
 

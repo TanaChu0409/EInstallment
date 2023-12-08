@@ -5,9 +5,9 @@ namespace EInstallment.Persistence;
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1812:避免未具現化的內部類別", Justification = "<暫止>")]
 internal sealed class UnitOfWork : IUnitOfWork
 {
-    private readonly EInstallmentContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public UnitOfWork(EInstallmentContext context)
+    public UnitOfWork(ApplicationDbContext context)
     {
         _context = context;
     }

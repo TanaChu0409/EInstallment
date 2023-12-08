@@ -2,9 +2,9 @@
 
 namespace EInstallment.Persistence;
 
-public sealed class EInstallmentContext : DbContext
+public sealed class ApplicationDbContext : DbContext
 {
-    public EInstallmentContext(DbContextOptions<EInstallmentContext> options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }

@@ -5,9 +5,9 @@ namespace EInstallment.Persistence.Repositories;
 
 public sealed class PaymentRepository : IPaymentRepository
 {
-    private readonly EInstallmentContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public PaymentRepository(EInstallmentContext context)
+    public PaymentRepository(ApplicationDbContext context)
     {
         _context = context;
     }
@@ -22,5 +22,10 @@ public sealed class PaymentRepository : IPaymentRepository
         return await _context.Set<Payment>()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken)
             .ConfigureAwait(false);
+    }
+
+    public void Update(Payment payment)
+    {
+        _context.Set<Payment>().Update(payment);
     }
 }

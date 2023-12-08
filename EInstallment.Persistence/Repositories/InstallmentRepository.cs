@@ -5,9 +5,9 @@ namespace EInstallment.Persistence.Repositories;
 
 public sealed class InstallmentRepository : IInstallmentRepository
 {
-    private readonly EInstallmentContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public InstallmentRepository(EInstallmentContext context)
+    public InstallmentRepository(ApplicationDbContext context)
     {
         _context = context;
     }

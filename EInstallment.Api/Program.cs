@@ -27,7 +27,7 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider
-        .GetRequiredService<EInstallment.Persistence.EInstallmentContext>();
+        .GetRequiredService<EInstallment.Persistence.ApplicationDbContext>();
     await context.Database
         .MigrateAsync()
         .ConfigureAwait(false);
