@@ -1,5 +1,6 @@
 ﻿using EInstallment.Domain.Shared;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EInstallment.Api.Abstractions;

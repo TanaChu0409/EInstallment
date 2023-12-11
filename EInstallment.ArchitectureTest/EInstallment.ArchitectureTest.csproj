@@ -27,6 +27,7 @@
     <ProjectReference Include="..\EInstallment.Application\EInstallment.Application.csproj" />
     <ProjectReference Include="..\EInstallment.Domain\EInstallment.Domain.csproj" />
     <ProjectReference Include="..\EInstallment.Persistence\EInstallment.Persistence.csproj" />
+    <ProjectReference Include="..\EInstallment.Presentation\EInstallment.Presentation.csproj" />
   </ItemGroup>
 
 </Project>
