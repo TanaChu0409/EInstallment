@@ -3,10 +3,9 @@ using System.Reflection;
 
 namespace EInstallment.ArchitectureTest;
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1707:識別項不應包含底線", Justification = "<暫止>")]
 public class ArchitectureTests
 {
-    private readonly string _presentationNameSpace = Api.AssemblyReference.Namespace;
+    private readonly string _presentationNameSpace = Presentation.AssemblyReference.Namespace;
     private readonly string _applicationNameSpace = Application.AssemblyReference.Namespace;
 
     private static Assembly DomainAssembly =>

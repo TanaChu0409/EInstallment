@@ -5,8 +5,8 @@ public class PresentationServiceInstaller : IServiceInstaller
     public void Install(IServiceCollection services, IConfiguration configuration)
     {
         services
-            .AddEndpointsApiExplorer()
-            .AddSwaggerGen()
-            .AddControllers();
+            .AddControllers()
+            .AddApplicationPart(Presentation.AssemblyReference.Assembly);
+        services.AddSwaggerGen();
     }
 }
