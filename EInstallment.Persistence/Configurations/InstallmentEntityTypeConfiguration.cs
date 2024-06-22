@@ -1,5 +1,6 @@
 ﻿using EInstallment.Domain.Installments;
 using EInstallment.Domain.ValueObjects;
+using EInstallment.Persistence.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,7 +12,7 @@ internal sealed class InstallmentEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<Installment> installmentBuilder)
     {
-        installmentBuilder.ToTable(nameof(Installment));
+        installmentBuilder.ToTable(TableNames.Installment);
         installmentBuilder.HasKey(x => x.Id);
 
         installmentBuilder

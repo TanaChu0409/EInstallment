@@ -12,8 +12,6 @@ internal sealed class UnitOfWork : IUnitOfWork
         _context = context;
     }
 
-    public Task SaveEntitiesAsync(CancellationToken cancellationToken)
-    {
-        return _context.SaveChangesAsync(cancellationToken);
-    }
+    public Task SaveEntitiesAsync(CancellationToken cancellationToken) =>
+        _context.SaveChangesAsync(cancellationToken);
 }

@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace EInstallment.Api.Configurations;
 
-public class ApplicationServiceInstaller : IServiceInstaller
+public sealed class ApplicationServiceInstaller : IServiceInstaller
 {
     public void Install(IServiceCollection services, IConfiguration configuration)
     {

@@ -1,4 +1,5 @@
 ﻿using EInstallment.Domain.Payments;
+using EInstallment.Persistence.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,7 +11,7 @@ internal sealed class PaymentEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<Payment> paymentBuilder)
     {
-        paymentBuilder.ToTable(nameof(Payment));
+        paymentBuilder.ToTable(TableNames.Payment);
         paymentBuilder.HasKey(x => x.Id);
 
         paymentBuilder.Property(x => x.Amount)

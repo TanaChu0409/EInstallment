@@ -1,5 +1,6 @@
 ﻿using EInstallment.Domain.CreditCards;
 using EInstallment.Domain.ValueObjects;
+using EInstallment.Persistence.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,7 +12,7 @@ internal sealed class CreditCardEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<CreditCard> creditCardBuilder)
     {
-        creditCardBuilder.ToTable(nameof(CreditCard));
+        creditCardBuilder.ToTable(TableNames.CreditCard);
         creditCardBuilder.HasKey(x => x.Id);
 
         creditCardBuilder
