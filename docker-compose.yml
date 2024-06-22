@@ -6,3 +6,11 @@ services:
     build:
       context: .
       dockerfile: EInstallment.Api/Dockerfile
+  einstallment.seq:
+    image: datalust/seq:latest
+    container_name: einstallment-seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 8081:80
