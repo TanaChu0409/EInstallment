@@ -5,7 +5,7 @@ using Scrutor;
 
 namespace EInstallment.Api.Configurations;
 
-public class PersistenceServiceInstaller : IServiceInstaller
+public sealed class PersistenceServiceInstaller : IServiceInstaller
 {
     public void Install(
         IServiceCollection services,

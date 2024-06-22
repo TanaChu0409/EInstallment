@@ -1,5 +1,6 @@
 ﻿using EInstallment.Domain.Members;
 using EInstallment.Domain.ValueObjects;
+using EInstallment.Persistence.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,7 +12,7 @@ internal sealed class MemberEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<Member> memberBuilder)
     {
-        memberBuilder.ToTable(nameof(Member));
+        memberBuilder.ToTable(TableNames.Member);
         memberBuilder.HasKey(x => x.Id);
 
         memberBuilder
